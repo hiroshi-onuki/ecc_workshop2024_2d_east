@@ -1,0 +1,147 @@
+
+\begin{frame}{RandIsogImages (RII)}
+    \begin{algorithm}[H]
+        \caption{\textsf{RandIsogImages}}
+        \KwIn{An odd integer $d < 2^{a+b}$.}
+        \KwOut{A $d$-isogeny from $E_0$.}
+        \BlankLine
+        Let $\alpha \leftarrow \textsf{FullRepresentInteger}_{\order_0}(d\cdot(2^{a+b} - d))$\;
+        Compute a $d$-isogeny $\varphi$ by Kani's lemma\;
+        \Return{$\varphi$}\;
+    \end{algorithm}
+
+
+    \vspace*{5pt}
+    \begin{equation*}
+        \xymatrix{
+            E_0 \ar[r]^\varphi \ar[d]_\psi \ar[dr]^{\alpha} & E_1 \ar[d]^{\psi'} \\
+            E_2 \ar[r]_{\varphi'} & E_0,
+        }
+        \hspace*{10pt}
+        \xymatrix@R=5pt{
+            \\
+            \deg\varphi = \deg\varphi' = d,\\
+            \deg\psi = \deg\psi' = 2^e - d.
+        }
+    \end{equation*}
+\end{frame}
+
+\newcounter{genRIIcnt}
+\regtotcounter{genRIIcnt}
+\newcommand*{\genRIItotal}{\total{genRIIcnt}}
+\stepcounter{genRIIcnt}
+\begin{frame}{generalized RandIsogImages (\arabic{genRIIcnt}/\genRIItotal{})}
+    \textbf{What we want to compute:}\\
+    \quad An isogeny of a given degree from a \red{general curve $E$} instead of $E_0$.
+
+    \vspace*{10pt}
+    \textbf{Idea:}\\
+    \quad Use \red{\textsf{SpecialEichlerNorm}} instead of \textsf{FullRepresentInteger}.
+
+    \vspace*{10pt}
+    \begin{itembox}{\textsf{SpecialEichlerNorm}}
+    \begin{itemize}
+        \item Input: an integer $D$ and an elliptic curve $E$.
+        \item Output: $\alpha \in \End(E)$ s.t. $\deg\alpha = D$.
+    \end{itemize}
+    Requirement:
+    \begin{itemize}
+        \item $\exists$ an isogeny $E_0 \to E$ of prime degree $N$.
+        \item $D > pN^3$ and $\left(\frac{-D}{N}\right) = 1$.
+    \end{itemize}
+    \quad (Typically, $N \approx p^{1/2}$, thus $D > p^{\red{2.5}}$.)
+    \end{itembox}
+\end{frame}
+
+\stepcounter{genRIIcnt}
+\begin{frame}{generalized RandIsogImages (\arabic{genRIIcnt}/\genRIItotal{})}
+    \textbf{Problem:}\\
+    We need to compute $\alpha \in \End(E)$ s.t. $\deg\alpha = d\cdot(2^{a+b} - d) < p^{\red{2}}$.
+
+    \vspace*{10pt}
+    \textbf{Solution:}\\
+    Restrict $E$ s.t.
+    $\exists$ an isogeny $E_0 \to E$ of prime degree $N < p^{1/3}$.\\[3pt]
+    Then we can find $\alpha \in \End(E)$ s.t. $\deg\alpha \approx p\cdot N^3 < p^2$.\\[3pt]
+    We also require $\left(\frac{-\deg\alpha}{N}\right) = 1$.
+\end{frame}
+
+\stepcounter{genRIIcnt}
+\begin{frame}{generalized RandIsogImages (\arabic{genRIIcnt}/\genRIItotal{})}
+    \begin{algorithm}[H]
+        \caption{\textsf{GenRandIsogImages}}
+        \KwIn{
+            An elliptic curve $E$
+            and an odd integer $d < 2^{a+b}$ s.t.\\
+            \hphantom{Input: }
+            $\exists$ an isogeny $E_0 \to E$ of prime degree $N$,\\
+            \hphantom{Input: }
+            \red{$d(2^{a+b} - d) > p\cdot N^3$},
+            and \red{$\left(\frac{-d(2^{a+b} - d)}{N}\right) = 1$}.
+        }
+        \KwOut{A $d$-isogeny $\varphi$ from $E$.}
+        \BlankLine
+        Let $\alpha \leftarrow \red{\textsf{SpecialEichlerNorm}(E, d\cdot(2^{a+b} - d))}$\;
+        Compute a $d$-isogeny $\varphi$ by Kani's lemma\;
+        \Return{$\varphi$}\;
+    \end{algorithm}
+\end{frame}
+
+\newcounter{auxRIIcnt}
+\regtotcounter{auxRIIcnt}
+\newcommand*{\auxRIItotal}{\total{auxRIIcnt}}
+\stepcounter{auxRIIcnt}
+\begin{frame}{Auxiliary isogeny (\arabic{auxRIIcnt}/\auxRIItotal{})}
+    \vspace{-10pt}
+    $$
+    \xymatrix{
+        E_0 \ar@{..>}[r]^{\varphi_\mathrm{com}} \ar@{..>}[d]_{\varphi_\mathrm{sec}} & E_\mathrm{com} \ar[d]^{\varphi_\mathrm{cha}} \\
+        E_\mathrm{pub} \ar[r]_{\varphi_\mathrm{res}} \ar[d]_{\red{\varphi_\mathrm{aux}}} & E_\mathrm{res}\\
+        E_\mathrm{aux} & 
+    }
+    $$
+    $\deg\varphi_\mathrm{res} =: q$ and $\deg\varphi_\mathrm{aux} = 2^a - q$.
+
+    \vspace*{10pt}
+    \begin{itemize}
+        \item $q \approx 2^a \approx p^{1/2} \Rightarrow 2^a - q \approx p^{1/2}$.
+        \item The degree of the output of \textsf{GenRandIsogImages} $\approx p$.
+        \item We need to compute a \red{shorter} isogeny.
+    \end{itemize}
+\end{frame}
+
+\stepcounter{auxRIIcnt}
+\begin{frame}{Auxiliary isogeny (\arabic{auxRIIcnt}/\auxRIItotal{})}
+    $$
+        \xymatrix{
+            E_\mathrm{pub} \ar[r]^{\blue{\varphi_\mathrm{aux}}} \ar[d] \ar[dr]^{\red{\tau}} & E_\mathrm{aux} \ar[d]^\psi \\
+            E_2 \ar[r] & E_1
+        }
+    $$
+    \begin{enumerate}
+        \item Compute \red{$\tau$} by \textsf{GenRandIsogImages} with $q(2^a - q) \approx p$.
+        \item Divide $\red{\tau} = \psi \circ \blue{\varphi_\mathrm{aux}}$
+            s.t. $\deg\psi = q$ and $\deg\blue{\varphi_\mathrm{aux}} = 2^a - q$\\
+            by Kani's lemma.
+    \end{enumerate}
+\end{frame}
+
+\stepcounter{auxRIIcnt}
+\begin{frame}{Auxiliary isogeny (\arabic{auxRIIcnt}/\auxRIItotal{})}
+    $M(q) \coloneqq q(2^a - q)(2^{a + b} - q(2^a - q))\ (= \deg\alpha \text{ in \textsf{GenRandIsogImages}})$\\
+
+    \vspace{10pt}
+    Requirements for $q = \deg\varphi_\mathrm{res}$ and $N = \deg\varphi_\mathrm{sec}$:
+    \begin{enumerate}
+        \item $q < 2^a$
+        \item $q(2^a - q) < 2^{a + b}$\quad (follows from \textbf{1} and $a \leq b + 2$)
+        \item $p \cdot N^3 < M(q)$
+        \item $\left(\frac{-M(q)}{N}\right) = 1$
+    \end{enumerate}
+    We say $q$ is \blue{\emph{$(2^a, 2^b, N)$-nice}} if $q$ satisfies the above conditions.
+
+    \vspace{20pt}
+    It can be relaxed to
+    $q/g$ is $(2^a, 2^b, N)$-nice for some $g \mid f$.\\[3pt]
+    \gray{(Recall $p = 2^{a + b} \cdot f - 1$. See our paper for details.)}
+\end{frame}

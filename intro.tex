@@ -1,0 +1,36 @@
+\begin{frame}{What's the difference between West and East?}
+    $$
+    \xymatrix{
+        E_0 \ar@{..>}[r]^{\varphi_\mathrm{com}} \ar@{..>}[d]_{\varphi_\mathrm{sec}} & E_\mathrm{com} \ar[d]^{\varphi_\mathrm{cha}} \\
+        E_\mathrm{pub} \ar[r]_{\varphi_\mathrm{res}} \ar[d]_{\varphi_\mathrm{aux}} & E_\mathrm{res}\\
+        E_\mathrm{aux} & 
+    }
+    $$
+
+    A. How to compute $\varphi_\mathrm{sec}$, $\varphi_\mathrm{com}$ and $\varphi_\mathrm{aux}$.
+
+    \begin{itemize}
+        \item $\varphi_\mathrm{sec}$ and $\varphi_\mathrm{com}$: RandIsogImages (in QFESTA)
+        \item $\varphi_\mathrm{aux}$: \red{Generalized RandIsogImages} (new algorithm!)
+        \item (challenge and verification are almost the same)
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Noatation}
+    \begin{itemize}
+        \setlength{\itemsep}{10pt}
+        \item $\lambda$: security parameter.
+        \item $p$ : a prime number of the form $2^{a + b} \cdot f - 1 \approx 2^{2\lambda}$,\\[3pt]
+                where $b \leq a \leq b + 2$ and $f$ is a small integer.
+        \item $E_0 : y^2 = x^3 + x$, a supersingular elliptic curve over $\Fpp$.
+        %\item $\B = \Q + \Q \qi + \Q \qj + \Q \qi \qj$ for $\qi^2 = -1$ and $\qj^2 = -p$.
+        %\item $\order_0 = \Z + \Z\qi + \Z\frac{\qi + \qj}{2} + \Z\frac{1 + \qi\qj}{2}$: a maximal order of $\B$,\\[3pt]
+        %            $\order_0 \cong \End(E_0)$ (we identify $\order_0$ with $\End(E_0)$).
+    \end{itemize}
+
+    \vspace{10pt}
+    $\End(E_0)$ has "good" properties for isogeny-based cryptography.
+
+    \vspace{20pt}
+    All the elliptic curves in this talk are supersingular and over $\Fpp$.
+\end{frame}

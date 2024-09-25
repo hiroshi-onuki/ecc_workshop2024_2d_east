@@ -1,0 +1,186 @@
+
+
+\begin{frame}{Restriction on $E_\mathrm{pub}$}
+    \vspace{-10pt}
+    $$
+        \xymatrix{
+            E_0 \ar[r]^{\varphi_\mathrm{sec}} & E_\mathrm{pub} \ar[r]^{\varphi_\mathrm{aux}} & E_\mathrm{aux}
+        }
+    $$
+    To use \textsf{GenRandIsogImages} for $E_\mathrm{pub}$,
+    we require $\deg\varphi_\mathrm{sec} < p^{1/3}$.
+    
+    \vspace*{10pt}
+    Our choice: $\deg\varphi_\mathrm{sec}$ is a random prime $N < p^{1/4 + \epsilon} < p^{1/3}$.
+    \begin{itemize}
+        \item The number of possible choices of $N$ is about $p^{1/4} \approx 2^{\lambda/2}$.
+        \item $N \approx p^{1/4} \approx 2^{\lambda/2} \Rightarrow$ there are about $2^{\lambda/2}$ $N$-isogenies from $E_0$.
+        \item The number of possibile choices of $\varphi_\mathrm{sec}$ is about $2^{\lambda}$.
+        \item \red{The degree $N$ must be kept secret.}
+    \end{itemize}
+
+    \vspace*{10pt}
+    Note that
+    $\{\text{The output of \textsf{RandIsogImages}}\} \neq \{N\text{-isogenies from }E_0\}$,\\
+    so we add a small $\epsilon$ to $1/4$.
+\end{frame}
+
+\begin{frame}[plain]{SQIsign2D-East}
+    $$
+        \xymatrix{
+            E_0 \ar@{..>}[r]^{\varphi_\mathrm{com}} \ar@{..>}[d]_{\varphi_\mathrm{sec}} & E_\mathrm{com} \ar[d]^{\varphi_\mathrm{cha}} \\
+            E_\mathrm{pub} \ar[r]_{\varphi_\mathrm{res}} \ar[d]_{\varphi_\mathrm{aux}} & E_\mathrm{res}\\
+            E_\mathrm{aux} & 
+        }
+    $$
+
+    \begin{itemize}
+        \item $\varphi_\mathrm{sec}$: prime degree $N < p^{1/4 + \epsilon}$ computed by \textsf{RandIsogImages}.
+        \item $\varphi_\mathrm{com}$: odd degree $< 2^{a+b}$ computed by \textsf{RandIsogImages}.
+        \item $\varphi_\mathrm{cha}$: degree $2^b$ by V\'elu's formula.
+        \item $\varphi_\mathrm{res}$: degree $q$ that is $(2^a, 2^b, N)$-nice.
+        \item $\varphi_\mathrm{aux}$: degree $2^a - q$ by \textsf{GenRandIsogImages} and Kani's lemma.
+    \end{itemize}
+
+    \vspace*{5pt}
+    The signature is
+    $(E_\mathrm{com}, E_\mathrm{aux},
+    \varphi_\mathrm{res}\circ\hat{\varphi}_\mathrm{aux}(P), \varphi_\mathrm{res}\circ\hat{\varphi}_\mathrm{aux}(Q))$\\[3pt]
+    for a fixed basix $\{P, Q\}$ of $E_\mathrm{aux}[2^a]$.
+\end{frame}
+
+\begin{frame}{CompactSQIsign2D-East}
+    $$
+        \xymatrix{
+            E_0 \ar@{..>}[r]^{\varphi_\mathrm{com}} \ar@{..>}[d]_{\varphi_\mathrm{sec}} & E_\mathrm{com} \ar[d]^{\varphi_\mathrm{cha}} \\
+            E_\mathrm{pub} \ar[r]_{\varphi_\mathrm{res}} \ar@{..>}[d]_{\varphi_\mathrm{aux}} & E_\mathrm{res} \ar[d]^{\varphi'_\mathrm{aux}}\\
+            E_\mathrm{aux} & E'_\mathrm{aux}
+        }
+    $$
+
+    \begin{itemize}
+        \item $\varphi'_\mathrm{aux}$: degree $2^{f_1} - q$ computed by Kani's lemma.
+    \end{itemize}
+
+    \vspace*{10pt}
+    The signature is
+    $(E'_\mathrm{aux}, \varphi'_\mathrm{aux}\circ\varphi_\mathrm{res}(P), \varphi'_\mathrm{aux}\circ\varphi_\mathrm{res}(Q), \ker\hat{\varphi}_\mathrm{cha})$\\[3pt]
+    for a fixed basis $\{P, Q\}$ of $E_\mathrm{pub}[2^a]$.
+\end{frame}
+
+\begin{frame}{Signature size}
+    \begin{table}
+        \begin{center}
+            \begin{tabular}{c|c|c}
+                Security & Protocol & Signature size (bytes)\\
+                \hline
+                Level 1 & SQIsign2D-East & 182\\[3pt]
+                 & CompactSQIsign2D-East & 150\\[3pt]
+                Level 3 & SQIsign2D-East & 271\\[3pt]
+                    & CompactSQIsign2D-East & 223\\[3pt]
+                Level 5 & SQIsign2D-East & 359\\[3pt]
+                    & CompactSQIsign2D-East & 295\\
+            \end{tabular}
+        \end{center}
+    \end{table}
+
+    \vspace*{10pt}
+    Smaller than the numbers in the paper\\
+    because the compression of the points in the paper is effective.
+\end{frame}
+
+\newcounter{attackcnt}
+\regtotcounter{attackcnt}
+\newcommand*{\attacktotal}{\total{attackcnt}}
+\stepcounter{attackcnt}
+\begin{frame}{Key recovery attack (\arabic{attackcnt}/\attacktotal{})}
+    The attack by Chen-Castryck-Invernizzi-Lorenzon-Vercauteren
+
+    \vspace{10pt}
+    \begin{itembox}{Idea}
+    \begin{itemize}
+        \item The attacker knows $q = \varphi_\mathrm{res}$ from the signature.
+        \item Half of prime numbers $N < p^{1/4+\epsilon}$ satisfy $\left(\frac{-M(q)}{N}\right) = 1$.
+    \end{itemize}
+    $\Rightarrow$ $q$ leaks one bit of information about $\deg\varphi_\mathrm{sec}$.\\[5pt]
+    $\Rightarrow$ About $\lambda/2$ signatures are enough to recover $\deg\varphi_\mathrm{sec}$.
+    \end{itembox}
+\end{frame}
+
+\stepcounter{attackcnt}
+\begin{frame}{Key recovery attack (\arabic{attackcnt}/\attacktotal{})}
+    The attack procedure:
+    \begin{enumerate}
+        \item Collect $\lambda/2$ signatures (for the same public key).
+        \item For each prime $N < p^{1/4+\epsilon}$, 
+            check $\left(\frac{-M(q)}{N}\right) = 1$ for all $q$'s.\\
+            (exhaustive search of cost $O(2^{\lambda/2})$)
+        \item (Typically) find a unique $N$ satisfying the condition.
+        \item Compute all $N$-isogenies from $E_0$. (cost $O(2^{\lambda/2})$)
+    \end{enumerate}
+
+    \vspace{10pt}
+    The total cost is $O(2^{\lambda/2})$.\\[5pt]
+    $\Rightarrow$ The security is reduced to $2^{\lambda/2}$ from $2^\lambda$.
+\end{frame}
+
+\newcounter{countermeasurecnt}
+\regtotcounter{countermeasurecnt}
+\newcommand*{\countermeasuretotal}{\total{countermeasurecnt}}
+\stepcounter{countermeasurecnt}
+\begin{frame}{Coutermeasure (\arabic{countermeasurecnt}/\countermeasuretotal{})}
+    \textbf{Idea:}
+    making $q$ independent of $\deg\varphi_\mathrm{sec}$.
+
+    \vspace{10pt}
+    \textbf{Solution:}
+    \begin{itemize}
+        \item $\deg\varphi_\mathrm{sec}$ is sampled from
+            a prime $N < p^{1/4+\epsilon}$ s.t. \red{$\left(\frac{3}{N}\right) = -1$}.
+        \item Change the condition $\left(\frac{-M(q)}{N}\right) = 1$ to
+            \red{$3 \mid M(q)$}.
+        \item Modify \textsf{GenRandIsogImages} as shown in the next slide.
+            \iffalse
+            $\left(\frac{-M(q)}{N}\right) = 1 \Rightarrow$ compute $\alpha \in \End(E_\mathrm{pub})$ s.t. $\deg\alpha = M(q)$.\\[5pt]
+            $\left(\frac{-M(q)}{N}\right) = -1$ (so $\left(\frac{-M(q)/3}{N}\right) = 1$)\\
+                    $\Rightarrow$ compute $\alpha \in \End(E_\mathrm{pub})$ s.t. $\deg\alpha = M(q)/3$\\
+                    \hphantom{$\Rightarrow$} and compute a random $3$-isogeny $\varphi_3: E_\mathrm{pub} \to E_3$.\\
+                    \hphantom{$\Rightarrow$} Then, $\deg(\varphi_3 \circ \alpha) = M(q)$
+            \fi
+    \end{itemize}
+\end{frame}
+
+\stepcounter{countermeasurecnt}
+\begin{frame}{Coutermeasure (\arabic{countermeasurecnt}/\countermeasuretotal{})}
+    \begin{algorithm}[H]
+        \caption{(modified) \textsf{GenRandIsogImages}}
+        \KwIn{
+            An elliptic curve $E$
+            and an odd integer $q < 2^a$ s.t.\\
+            \hphantom{Input: }
+            $\exists$ an isogeny $E_0 \to E$ of prime degree $N$,\\
+            \hphantom{Input: }
+            $M(q) > p\cdot N^3$,
+            \red{$\left(\frac{3}{N}\right) = -1$},
+            and \red{$3 \mid M(q)$}.
+        }
+        \KwOut{A $q(2^a - q)$-isogeny $\varphi$ from $E$.}
+        \BlankLine
+        \If{$\left(\frac{-M(q)}{N}\right) = 1$}{
+            Let $\alpha \leftarrow \textsf{SpecialEichlerNorm}(E, M(q))$\;
+        }
+        \Else{
+            Let $\alpha' \leftarrow \textsf{SpecialEichlerNorm}(E, M(q)\red{/3})$\;
+            \red{Compute a random $3$-isogeny $\varphi_3: E \to E_3$}\;
+            \red{Let $\alpha \leftarrow \varphi_3 \circ \alpha'$}\;
+        }
+        Compute a $q(2^a - q)$-isogeny $\varphi$ by Kani's lemma\;
+        \Return{$\varphi$}\;
+    \end{algorithm}
+\end{frame}
+
+\begin{frame}[plain,noframenumbering]
+    \begin{center}
+        \Huge Thank you for your attention!
+    \end{center}
+\end{frame}
