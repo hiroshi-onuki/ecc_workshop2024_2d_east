@@ -1,0 +1,6 @@
+[submodule "cryptobib"]
+	path = cryptobib
+	url = https://github.com/cryptobib/export
+[submodule "mybiblio"]
+	path = mybiblio
+	url = https://github.com/hiroshi-onuki/mybiblio.git
