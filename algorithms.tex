@@ -1,31 +1,4 @@
 
-\begin{frame}{RandIsogImages (RII)}
-    \begin{algorithm}[H]
-        \caption{\textsf{RandIsogImages}}
-        \KwIn{An odd integer $d < 2^{a+b}$.}
-        \KwOut{A $d$-isogeny from $E_0$.}
-        \BlankLine
-        Let $\alpha \leftarrow \textsf{FullRepresentInteger}_{\order_0}(d\cdot(2^{a+b} - d))$\;
-        Compute a $d$-isogeny $\varphi$ by Kani's lemma\;
-        \Return{$\varphi$}\;
-    \end{algorithm}
-
-
-    \vspace*{5pt}
-    \begin{equation*}
-        \xymatrix{
-            E_0 \ar[r]^\varphi \ar[d]_\psi \ar[dr]^{\alpha} & E_1 \ar[d]^{\psi'} \\
-            E_2 \ar[r]_{\varphi'} & E_0,
-        }
-        \hspace*{10pt}
-        \xymatrix@R=5pt{
-            \\
-            \deg\varphi = \deg\varphi' = d,\\
-            \deg\psi = \deg\psi' = 2^e - d.
-        }
-    \end{equation*}
-\end{frame}
-
 \newcounter{genRIIcnt}
 \regtotcounter{genRIIcnt}
 \newcommand*{\genRIItotal}{\total{genRIIcnt}}

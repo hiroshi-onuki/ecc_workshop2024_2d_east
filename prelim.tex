@@ -1,0 +1,86 @@
+
+\begin{frame}{Notation}
+    \begin{itemize}
+        \setlength{\itemsep}{10pt}
+        \item $\lambda$: security parameter.
+        \item $p$ : a prime number of the form $2^{a + b} \cdot f - 1 \approx 2^{2\lambda}$,\\[3pt]
+                where $b \leq a \leq b + 2$ and $f$ is a small integer.
+        \item $E_0 : y^2 = x^3 + x$, a supersingular elliptic curve over $\Fpp$.
+        %\item $\B = \Q + \Q \qi + \Q \qj + \Q \qi \qj$ for $\qi^2 = -1$ and $\qj^2 = -p$.
+        %\item $\order_0 = \Z + \Z\qi + \Z\frac{\qi + \qj}{2} + \Z\frac{1 + \qi\qj}{2}$: a maximal order of $\B$,\\[3pt]
+        %            $\order_0 \cong \End(E_0)$ (we identify $\order_0$ with $\End(E_0)$).
+    \end{itemize}
+
+    \vspace{10pt}
+    $\End(E_0)$ has "good" properties for isogeny-based cryptography.
+
+    \vspace{20pt}
+    All the elliptic curves in this talk are supersingular and over $\Fpp$.
+\end{frame}
+
+\begin{frame}{SQIsign}
+    \begin{equation*}
+        \large
+        \xymatrix@C=50pt@R=50pt{
+            E_0 \ar@{..>}[d]_{\varphi_\mathrm{sk}} \ar@{..>}[r]^{\varphi_{\mathrm{com}}}
+                & E_{\mathrm{com}} \ar[d]^{\varphi_\mathrm{chl}}\\
+            E_{\mathrm{pk}} \ar[r]_{\varphi_\mathrm{rsp}} & E_{\mathrm{chl}}
+        }
+    \end{equation*}
+\end{frame}
+
+\begin{frame}{Kani's lemma}
+    \begin{lemma}[\cite{Kan1997number,EC:MMPPW23}]
+        Consider a commutative diagram of isogenies
+        \vspace{-10pt}
+        \begin{align*}
+            \xymatrix@C=30pt@R=30pt{
+                E \ar[r]^{\varphi_1} \ar[d]_{\varphi_2} & E_1 \ar[d]^{\psi_2}\\
+                E_2 \ar[r]_{\psi_1} & F
+            }
+            \qquad
+            \xymatrix@R=0.3em{
+                \deg\varphi_1 = \deg\psi_1 = d_1,\\
+                \deg\varphi_2 = \deg\psi_2 = d_2,\\
+                d = d_1 + d_2.
+            }
+        \end{align*}
+
+        Then, the isogeny with kernel
+        $$\{\varphi_1(R), \varphi_2(R) \mid R \in E[d]\}$$
+        is a $(d,d)$-isogeny$E_1 \times E_2 \to E \times F$ and represented by
+        \vspace{-10pt}
+        \begin{equation*}
+            \begin{pmatrix}
+                \hat{\varphi_1} & \hat{\varphi_2}\\
+                -\psi_2 & \psi_1
+            \end{pmatrix}.
+        \end{equation*}
+    \end{lemma}
+\end{frame}
+
+\begin{frame}{RandIsogImages (RII)}
+    \begin{algorithm}[H]
+        \caption{\textsf{RandIsogImages}}
+        \KwIn{An odd integer $d < 2^{a+b}$.}
+        \KwOut{A $d$-isogeny from $E_0$.}
+        \BlankLine
+        Let $\alpha \leftarrow \textsf{FullRepresentInteger}_{\order_0}(d\cdot(2^{a+b} - d))$\;
+        Compute a $d$-isogeny $\varphi$ by Kani's lemma\;
+        \Return{$\varphi$}\;
+    \end{algorithm}
+
+    \vspace*{5pt}
+    \begin{equation*}
+        \xymatrix{
+            E_0 \ar[r]^\varphi \ar[d]_\psi \ar[dr]^{\alpha} & E_1 \ar[d]^{\psi'} \\
+            E_2 \ar[r]_{\varphi'} & E_0,
+        }
+        \hspace*{10pt}
+        \xymatrix@R=5pt{
+            \\
+            \deg\varphi = \deg\varphi' = d,\\
+            \deg\psi = \deg\psi' = 2^e - d.
+        }
+    \end{equation*}
+\end{frame}

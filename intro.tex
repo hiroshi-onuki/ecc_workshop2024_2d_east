@@ -1,3 +1,39 @@
+\newcounter{intro}
+\regtotcounter{intro}
+\newcommand*{\introTotal}{\total{intro}}
+\stepcounter{intro}
+\begin{frame}{Introduction (\arabic{intro}/\introTotal{})}
+    The talk is about 
+
+    \begin{itemize}
+        \setlength{\itemsep}{10pt}
+        \item K. Nakagawa, \underline{H. Onuki},\\
+            "SQIsign2D-East: A New Signature Scheme Using 2-dimensional Isogenies",\\
+            ePrint 2024/771
+            \cite{no2024sqisign2d}.
+
+        \item W. Castryck, M. Chen, R. Invernizzi, G. Lorenzon, F. Vercauteren,\\
+                "Breaking and Repairing SQIsign2D-East",\\
+                ePrint 2024/1453
+                \cite{CCILV2024sqisign2d_attack}
+    \end{itemize}
+
+    \vspace{10pt}
+    The merged paper will be appeared in Asiacrypt 2024.
+\end{frame}
+
+\stepcounter{intro}
+\begin{frame}{Introduction (\arabic{intro}/\introTotal{})}
+    \begin{itemize}
+        \setlength{\itemsep}{10pt}
+        \item \blue{SQIsign2D-East} is a new signature scheme using 2-dimensional isogenies based on SQIsign.
+        \item The original protocol was proposed by \cite{no2024sqisign2d}.
+        \item A \red{security issue} was found by \cite{CCILV2024sqisign2d_attack}.
+        \item A method to \blue{repair} it was also proposed by \cite{CCILV2024sqisign2d_attack}.
+    \end{itemize}
+\end{frame}
+
+\iffalse
 \begin{frame}{What's the difference between West and East?}
     $$
     \xymatrix{
@@ -15,22 +51,4 @@
         \item (challenge and verification are almost the same)
     \end{itemize}
 \end{frame}
-
-\begin{frame}{Noatation}
-    \begin{itemize}
-        \setlength{\itemsep}{10pt}
-        \item $\lambda$: security parameter.
-        \item $p$ : a prime number of the form $2^{a + b} \cdot f - 1 \approx 2^{2\lambda}$,\\[3pt]
-                where $b \leq a \leq b + 2$ and $f$ is a small integer.
-        \item $E_0 : y^2 = x^3 + x$, a supersingular elliptic curve over $\Fpp$.
-        %\item $\B = \Q + \Q \qi + \Q \qj + \Q \qi \qj$ for $\qi^2 = -1$ and $\qj^2 = -p$.
-        %\item $\order_0 = \Z + \Z\qi + \Z\frac{\qi + \qj}{2} + \Z\frac{1 + \qi\qj}{2}$: a maximal order of $\B$,\\[3pt]
-        %            $\order_0 \cong \End(E_0)$ (we identify $\order_0$ with $\End(E_0)$).
-    \end{itemize}
-
-    \vspace{10pt}
-    $\End(E_0)$ has "good" properties for isogeny-based cryptography.
-
-    \vspace{20pt}
-    All the elliptic curves in this talk are supersingular and over $\Fpp$.
-\end{frame}
+\fi
