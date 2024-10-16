@@ -18,15 +18,99 @@
     All the elliptic curves in this talk are supersingular and over $\Fpp$.
 \end{frame}
 
+\newcounter{cnt_quat}
+\regtotcounter{cnt_quat}
+\newcommand*{\quatotal}{\total{cnt_quat}}
+\stepcounter{cnt_quat}
+\begin{frame}{Quaternion algebra (\arabic{cnt_quat}/\quatotal{})}
+    $\B$ : the \textbf{quaternion algebra} over $\Q$ ramified exactly at $p$ and $\infty$.
+    $$\B \cong \Q + \Q\qi + \Q\qj + \Q\qi\qj \quad (\qi^2 = -1,\ \qj^2 = -p,\ \qi\qj = -\qj\qi)$$
+    An \textbf{order} of $\B$ is a subring in $\B$ of rank $4$ over $\Z$.\\
+    A \textbf{maximal order} is a maximal order of $\B$ w.r.t. inclusion.
+
+    \vspace{10pt}
+    The \textbf{canonical involution} $\bar{\phantom{a}}$ on $\B$ is defined by
+    $$\overline{a + b\qi + c\qj + d\qi\qj} = a - b\qi - c\qj - d\qi\qj.$$
+
+    For $\alpha = a + b\qi + c\qj + d\qi\qj \in \B$,
+    the \textbf{norm} $\norm(\alpha)$ is
+    $$\norm(\alpha) \coloneqq \alpha\bar{\alpha} = a^2 + b^2 + p(c^2 + d^2).$$
+\end{frame}
+
+\stepcounter{cnt_quat}
+\begin{frame}{Quaternion algebra (\arabic{cnt_quat}/\quatotal{})}
+    \begin{lemma}
+        If $\alpha$ is in an order in $\B$ then $\norm(\alpha) \in \Z_{\geq 0}$.
+    \end{lemma}
+
+    \vspace{10pt}
+    Let $\order$ be a maximal order in $\B$
+    and $I$ be a left $\order$-ideal.
+
+    The \textbf{norm} of $I$ is
+    \begin{align*}
+        \norm(I) &\coloneqq \gcd\{\norm(\alpha) \mid \alpha \in I\}.
+    \end{align*}
+
+    The \textbf{conjugate} of $I$ is
+    \begin{align*}
+        \bar{I} &\coloneqq \{\bar{\alpha} \mid \alpha \in I\}.
+    \end{align*}
+
+    Let $\order'$ be another maximal order in $\B$.\\
+    If $I$ is a right $\order'$-ideal then $I$ is a \textbf{connecting ideal} of $\order$ and $\order'$.
+\end{frame}
+
+\stepcounter{cnt_quat}
+\begin{frame}{Quaternion algebra (\arabic{cnt_quat}/\quatotal{})}
+    \begin{lemma}
+        Let $I$ be a connecting ideal of $\order$ and $\order'$.\\
+        Then, $\bar{I}$ is a connecting ideal of $\order'$ and $\order$.
+    \end{lemma}
+
+    \vspace{10pt}
+    \begin{definition}
+        Let $I$ and $J$ be left $\order$-ideals.\\
+        $I$ and $J$ are \textbf{equivalent}
+        if there exists $\beta \in \B^{\times}$ such that $I = J\beta$.\\
+        We denote $I \sim J$.
+    \end{definition}
+\end{frame}
+
+\begin{frame}{Deuring correspondence}
+
+    {\fontsize{11pt}{13pt}\selectfont
+    $\mathcal{E}_p \coloneqq \{\overline{\F}_p\mbox{-isomorphisim classes of supersingular elliptic curves over }\Fpp \}$\\
+    \begin{itembox}{\blue{\textbf{Deuring Correspondence}}}
+        \begin{center}
+            \begin{tabular}{ccc}
+                $\mathcal{E}_p/\mathrm{Gal}(\Fpp/\Fp)$ & $\stackrel{1:1}{\longleftrightarrow}$
+                    & \{Maximal orders $\subset \B$\}$/\cong$\\[5pt]\hline\\[5pt]
+                $E$  & $\longleftrightarrow$
+                    & $\order$ s.t. $\order \cong \End(E)$\\[7pt]
+                An isogeny $\varphi: E_1 \to E_2$ & $\longleftrightarrow$
+                    & $I$ : a connecting ideal of $\order_1$ and $\order_2$\\[7pt]
+                $\deg\varphi_I$ & $\longleftrightarrow$ & $\norm(I)$\\[7pt]
+                $\xymatrix{
+                    E_0 \ar@/^15pt/[r]^{{\varphi_I}} \ar@/_15pt/[r]_{{\varphi_J}} & E_1
+                }$ & $\longleftrightarrow$ & $I \sim J$
+            \end{tabular}
+        \end{center}
+    \end{itembox}
+    }
+\end{frame}
+
 \begin{frame}{SQIsign}
+
+    {\large
     \begin{equation*}
-        \large
         \xymatrix@C=50pt@R=50pt{
             E_0 \ar@{..>}[d]_{\varphi_\mathrm{sk}} \ar@{..>}[r]^{\varphi_{\mathrm{com}}}
                 & E_{\mathrm{com}} \ar[d]^{\varphi_\mathrm{chl}}\\
             E_{\mathrm{pk}} \ar[r]_{\varphi_\mathrm{rsp}} & E_{\mathrm{chl}}
         }
     \end{equation*}
+    }
 \end{frame}
 
 \begin{frame}{Kani's lemma}
@@ -61,7 +145,7 @@
 
 \begin{frame}{RandIsogImages (RII)}
     \begin{algorithm}[H]
-        \caption{\textsf{RandIsogImages}}
+        \caption{\textsf{RandIsogImages} \cite{C:NakOnu24}}
         \KwIn{An odd integer $d < 2^{a+b}$.}
         \KwOut{A $d$-isogeny from $E_0$.}
         \BlankLine
@@ -80,7 +164,7 @@
         \xymatrix@R=5pt{
             \\
             \deg\varphi = \deg\varphi' = d,\\
-            \deg\psi = \deg\psi' = 2^e - d.
+            \deg\psi = \deg\psi' = 2^{a+b} - d.
         }
     \end{equation*}
 \end{frame}
