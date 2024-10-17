@@ -99,17 +99,68 @@
     \end{itembox}
     }
 \end{frame}
+\begin{frame}{SQIsign}
+    \begin{itemize}
+        \setlength{\itemsep}{10pt}
+        \item An isogeny-based signature scheme by \cite{AC:DKLPW20}.
+        \item A candidate for the NIST PQC additional signatures.
+        \item Use the \blue{Deuring correspondence}.
+        \item Use Fiat-Shamir transform to the \blue{identification protocol}\\ in the next slide.
+    \end{itemize}
+\end{frame}
 
 \begin{frame}{SQIsign}
+    \begin{center}
+        Proof of knowledge of the secret isogeny $\red{\varphi_\mathrm{sk}}$.
+    \end{center}
 
+    \vspace{-10pt}
+    
     {\large
     \begin{equation*}
         \xymatrix@C=50pt@R=50pt{
-            E_0 \ar@{..>}[d]_{\varphi_\mathrm{sk}} \ar@{..>}[r]^{\varphi_{\mathrm{com}}}
-                & E_{\mathrm{com}} \ar[d]^{\varphi_\mathrm{chl}}\\
-            E_{\mathrm{pk}} \ar[r]_{\varphi_\mathrm{rsp}} & E_{\mathrm{chl}}
+            E_0 \ar@{..>}[d]_{\red{\varphi_\mathrm{sk}}} \only<2->{\ar@{..>}[r]^{\varphi_{\mathrm{com}}}}
+                & \uncover<2->{E_{\mathrm{com}}} \only<3->{\ar[d]^{\varphi_\mathrm{chl}}}\\
+            E_{\mathrm{pk}} \only<5->{\ar[r]_{\varphi_\mathrm{rsp}}} & \uncover<3->{E_{\mathrm{chl}}}
         }
     \end{equation*}
+    }
+
+    \vspace{10pt}
+    \only<2>{
+        \textbf{Prover:}
+        \begin{itemize}
+            \item Compute a random isogeny $\varphi_{\mathrm{com}}$ and the codomain $E_{\mathrm{com}}$.
+            \item Send $E_{\mathrm{com}}$ to the verifier.
+        \end{itemize}
+    }
+    \only<3>{
+        \textbf{Verifier:}
+        \begin{itemize}
+            \item Compute a random isogeny $\varphi_{\mathrm{chl}}$ and the codomain $E_{\mathrm{chl}}$.
+            \item Send $\varphi_\mathrm{chl}$ and $E_{\mathrm{chl}}$ to the prover.
+        \end{itemize}
+    }
+    \only<4>{
+        \textbf{Prover:}
+        \begin{itemize}
+            \item Compute the ideal $I$ corresponding to $\varphi_\mathrm{chl}\circ\varphi_\mathrm{com}\circ\hat{\red{\varphi}}_{\red{\mathrm{sk}}}$.
+            \item Compute an ideal $J$ equivalent to $I$ whose norm is a power of $2$.
+        \end{itemize}
+    }
+    \only<5>{
+        \textbf{Prover:}
+        \begin{itemize}
+            \item Compute the isogeny $\varphi_{\mathrm{rsp}}$ corresponding to $J$.
+            \item Send $\varphi_{\mathrm{rsp}}$ to the verifier.
+        \end{itemize}
+    }
+    \only<6>{
+        \textbf{Verifier:}
+        \begin{itemize}
+            \item Check if $\varphi_{\mathrm{rsp}}$ is an isogeny from $E_{\mathrm{pk}}$ to $E_{\mathrm{chl}}$\\
+                \hphantom{Check if} and the kernel of $\hat{\varphi}_{\mathrm{chl}}\circ\varphi_{\mathrm{rsp}}$ is cyclic.
+        \end{itemize}
     }
 \end{frame}
 
