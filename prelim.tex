@@ -92,13 +92,85 @@
                     & $I$ : a connecting ideal of $\order_1$ and $\order_2$\\[7pt]
                 $\deg\varphi_I$ & $\longleftrightarrow$ & $\norm(I)$\\[7pt]
                 $\xymatrix{
-                    E_0 \ar@/^15pt/[r]^{{\varphi_I}} \ar@/_15pt/[r]_{{\varphi_J}} & E_1
+                    E_1 \ar@/^15pt/[r]^{{\varphi_I}} \ar@/_15pt/[r]_{{\varphi_J}} & E_2
                 }$ & $\longleftrightarrow$ & $I \sim J$
             \end{tabular}
         \end{center}
     \end{itembox}
     }
 \end{frame}
+
+\begin{frame}{Special $p$-extremal order}
+    \begin{definition}[Informal]
+        A maximal order $\order$ in $\B$ is \textbf{special $p$-extremal}\\
+        if $\order$ contains a subring isomorphic to
+        the ring of integers of an imaginary quadratic field with a small discriminant.
+    \end{definition}
+
+    \begin{align*}
+        \order_0 \coloneqq \Z + \Z\qi + \Z\frac{\qi + \qj}{2} + \Z\frac{1 + \qi\qj}{2}
+    \end{align*}
+    is a special $p$-extremal order.
+    \begin{align*}
+        E_0 : y^2 = x^3 + x
+    \end{align*}
+    Then $\order_0 \cong \End(E_0)$.
+\end{frame}
+
+\newcounter{cnt_alg_quat}
+\regtotcounter{cnt_alg_quat}
+\newcommand*{\algquatotal}{\total{cnt_alg_quat}}
+\stepcounter{cnt_alg_quat}
+\begin{frame}{Quaternion algorithms (\arabic{cnt_alg_quat}/\algquatotal{})}
+
+    {\large
+       \blue{$\mathsf{FullRepresentInteger}_{\order_0}(D)$}
+    }
+    (\cite{KLPT}):\\[5pt]
+    \begin{tabular}{l l}
+        \textbf{Input}: & a special extremal order $\order_0$ and an integer $D$.\\[3pt]
+        \textbf{Output}: & $\alpha \in \order_0$ s.t. $\norm(\alpha) = D$.\\[3pt]
+        \textbf{Requirement}: & $D > p$.
+    \end{tabular}
+
+    \vspace{15pt}
+    \textcolor{magenta}{\textbf{Elliptic curve side:}}\\[5pt]
+    \quad Find $\alpha \in \End(E)$ s.t. $\deg\alpha = D$.
+
+\end{frame}
+
+\stepcounter{cnt_alg_quat}
+\begin{frame}{Quaternion algorithms (\arabic{cnt_alg_quat}/\algquatotal{})}
+
+    {\large
+       \blue{$\mathsf{SpecialEichlerNorm}_{I}(D)$}
+    }
+    (\cite{EC:DLLW23}):\\
+    \begin{tabular}{l l}
+        \textbf{Input}: & a left $\order_0$ ideal $I$ and an integer $D$.\\[3pt]
+        \textbf{Output}: & $\alpha \in \order$, where $I$ is a right $\order$-ideal,
+                            s.t. $\norm(\alpha) = D$.\\[3pt]
+        \textbf{Requirement}: & 
+                $D > p\cdot\norm(I)^3$ and $\displaystyle \left(\frac{-D}{\norm(I)}\right) = 1$.
+    \end{tabular}
+
+    \vspace{15pt}
+    \textcolor{magenta}{\textbf{Elliptic curve side:}}
+    \begin{align*}
+        \xymatrix{
+            E_0 \ar[r]^{\varphi_I} & E \ar@(ur,dr)[]^{\alpha}
+        }
+    \end{align*}
+    Given $\varphi_I$,
+    find $\alpha \in \End(E)$ s.t. $\deg\alpha = D$.
+\end{frame}
+
+
+
+\begin{frame}{Algorithms for finding equivalent ideals}
+    
+\end{frame}
+
 \begin{frame}{SQIsign}
     \begin{itemize}
         \setlength{\itemsep}{10pt}
@@ -109,7 +181,7 @@
     \end{itemize}
 \end{frame}
 
-\begin{frame}{SQIsign}
+\begin{frame}{Identification protocol in SQIsign}
     \begin{center}
         Proof of knowledge of the secret isogeny $\red{\varphi_\mathrm{sk}}$.
     \end{center}
