@@ -1,46 +1,26 @@
-
-\newcounter{genRIIcnt}
-\regtotcounter{genRIIcnt}
-\newcommand*{\genRIItotal}{\total{genRIIcnt}}
-\stepcounter{genRIIcnt}
-\begin{frame}{generalized RandIsogImages (\arabic{genRIIcnt}/\genRIItotal{})}
-    \textbf{What we want to compute:}\\
-    \quad An isogeny of a given degree from a \red{general curve $E$} instead of $E_0$.
-
-    \vspace*{10pt}
-    \textbf{Idea:}\\
-    \quad Use \red{\textsf{SpecialEichlerNorm}} instead of \textsf{FullRepresentInteger}.
-
-    \vspace*{10pt}
-    \begin{itembox}{\textsf{SpecialEichlerNorm}}
+\begin{frame}{Requirement on $\varphi_\mathrm{aux}$}
     \begin{itemize}
-        \item Input: an integer $D$ and an elliptic curve $E$.
-        \item Output: $\alpha \in \End(E)$ s.t. $\deg\alpha = D$.
+        \setlength{\itemsep}{10pt}
+        \item $\deg\varphi_\mathrm{res} + \deg\varphi_\mathrm{aux} = 2^a \approx p^{1/2}$\\
+            $\Rightarrow \deg\varphi_\mathrm{aux} < 2^a$.
+        \item The domain $E_\mathrm{pk}$ is not a special curve\\
+            $\Rightarrow$ we cannot use \blue{\textsf{FullRepresentInteger}}.
+        \item The prover knows
+                \begin{align*}
+                    \xymatrix@C=30pt{
+                        E_0 \ar[r]^{\varphi_\mathrm{sec}} & E_\mathrm{pk}
+                    }.
+                \end{align*}
+            $\Rightarrow$ we can use \blue{\textsf{SpecialEichlerNorm}}.
     \end{itemize}
-    Requirement:
-    \begin{itemize}
-        \item $\exists$ an isogeny $E_0 \to E$ of prime degree $N$.
-        \item $D > pN^3$ and $\left(\frac{-D}{N}\right) = 1$.
-    \end{itemize}
-    \quad (Typically, $N \approx p^{1/2}$, thus $D > p^{\red{2.5}}$.)
-    \end{itembox}
+
 \end{frame}
 
-\stepcounter{genRIIcnt}
-\begin{frame}{generalized RandIsogImages (\arabic{genRIIcnt}/\genRIItotal{})}
-    \textbf{Problem:}\\
-    We need to compute $\alpha \in \End(E)$ s.t. $\deg\alpha = d\cdot(2^{a+b} - d) < p^{\red{2}}$.
+\begin{frame}{generalized RandIsogImages}
+    Replaicing \blue{\textsf{FullRepresentInteger}} with \blue{\textsf{SpecialEichlerNorm}},\\
+    we obtain a new algorithm \blue{\textsf{GenRandIsogImages}}.
 
-    \vspace*{10pt}
-    \textbf{Solution:}\\
-    Restrict $E$ s.t.
-    $\exists$ an isogeny $E_0 \to E$ of prime degree $N < p^{1/3}$.\\[3pt]
-    Then we can find $\alpha \in \End(E)$ s.t. $\deg\alpha \approx p\cdot N^3 < p^2$.\\[3pt]
-    We also require $\left(\frac{-\deg\alpha}{N}\right) = 1$.
-\end{frame}
-
-\stepcounter{genRIIcnt}
-\begin{frame}{generalized RandIsogImages (\arabic{genRIIcnt}/\genRIItotal{})}
+    \vspace{10pt}
     \begin{algorithm}[H]
         \caption{\textsf{GenRandIsogImages}}
         \KwIn{
@@ -54,7 +34,7 @@
         }
         \KwOut{A $d$-isogeny $\varphi$ from $E$.}
         \BlankLine
-        Let $\alpha \leftarrow \red{\textsf{SpecialEichlerNorm}(E, d\cdot(2^{a+b} - d))}$\;
+        Let $\alpha \leftarrow \red{\textsf{SpecialEichlerNorm}(E, d(2^{a+b} - d))}$\;
         Compute a $d$-isogeny $\varphi$ by Kani's lemma\;
         \Return{$\varphi$}\;
     \end{algorithm}
@@ -65,56 +45,153 @@
 \newcommand*{\auxRIItotal}{\total{auxRIIcnt}}
 \stepcounter{auxRIIcnt}
 \begin{frame}{Auxiliary isogeny (\arabic{auxRIIcnt}/\auxRIItotal{})}
-    \vspace{-10pt}
-    $$
-    \xymatrix{
-        E_0 \ar@{..>}[r]^{\varphi_\mathrm{com}} \ar@{..>}[d]_{\varphi_\mathrm{sec}} & E_\mathrm{com} \ar[d]^{\varphi_\mathrm{cha}} \\
-        E_\mathrm{pub} \ar[r]_{\varphi_\mathrm{res}} \ar[d]_{\red{\varphi_\mathrm{aux}}} & E_\mathrm{res}\\
-        E_\mathrm{aux} & 
-    }
-    $$
-    $\deg\varphi_\mathrm{res} =: q$ and $\deg\varphi_\mathrm{aux} = 2^a - q$.
+    Consider applying \blue{\textsf{GenRandIsogImages}} to $E_\mathrm{pk}$.
+    \begin{align*}
+        d(2^{a+b} - d) > p (\deg\varphi_\mathrm{sec})^3.
+    \end{align*}
+    Since $2^{a+b} - d \approx p$, we have
+    \begin{align*}
+        d > (\deg\varphi_\mathrm{sec})^3.
+    \end{align*}
 
-    \vspace*{10pt}
-    \begin{itemize}
-        \item $q \approx 2^a \approx p^{1/2} \Rightarrow 2^a - q \approx p^{1/2}$.
-        \item The degree of the output of \textsf{GenRandIsogImages} $\approx p$.
-        \item We need to compute a \red{shorter} isogeny.
-    \end{itemize}
+    If we sample $E_\mathrm{pk}$ from all supersingular curves
+    then $\deg\varphi_\mathrm{sec} \approx p^{1/2}$.
+
+    \vspace{10pt}
+    Restricting $E_\mathrm{pk}$ to a subset used in SQIsign
+    then $\deg\varphi_\mathrm{sec} \approx p^{1/4}$.
+
+    \vspace{5pt}
+    We use this restriction, but
+    $$ d > p^{3/4}$$
+    is too large for $\varphi_\mathrm{aux}$ (we want $\deg\varphi_\mathrm{aux} < 2^a$).
+
 \end{frame}
 
 \stepcounter{auxRIIcnt}
 \begin{frame}{Auxiliary isogeny (\arabic{auxRIIcnt}/\auxRIItotal{})}
     $$
-        \xymatrix{
-            E_\mathrm{pub} \ar[r]^{\blue{\varphi_\mathrm{aux}}} \ar[d] \ar[dr]^{\red{\tau}} & E_\mathrm{aux} \ar[d]^\psi \\
-            E_2 \ar[r] & E_1
+        \xymatrix@C=40pt@R=40pt{
+            E_\mathrm{aux} \ar[r]^\psi & E_1\\
+            E_\mathrm{pk} \ar[u]^{\magenta{\varphi_\mathrm{aux}}} \ar[ur]^{\red{\tau}} \ar[r] & E_2 \ar[u]
         }
     $$
     \begin{enumerate}
-        \item Compute \red{$\tau$} by \textsf{GenRandIsogImages} with $q(2^a - q) \approx p$.
-        \item Divide $\red{\tau} = \psi \circ \blue{\varphi_\mathrm{aux}}$
-            s.t. $\deg\psi = q$ and $\deg\blue{\varphi_\mathrm{aux}} = 2^a - q$\\
+        \setlength{\itemsep}{10pt}
+        \item Compute a $d$-isogeny \red{$\tau$} by \blue{\textsf{GenRandIsogImages}}
+            with $d = q(2^a - q) \approx p$.
+        \item Divide $\red{\tau} = \psi \circ \magenta{\varphi_\mathrm{aux}}$
+            s.t. $\deg\psi = q$ and $\deg\magenta{\varphi_\mathrm{aux}} = 2^a - q$\\
             by Kani's lemma.
     \end{enumerate}
 \end{frame}
 
 \stepcounter{auxRIIcnt}
 \begin{frame}{Auxiliary isogeny (\arabic{auxRIIcnt}/\auxRIItotal{})}
-    $M(q) \coloneqq q(2^a - q)(2^{a + b} - q(2^a - q))\ (= \deg\alpha \text{ in \textsf{GenRandIsogImages}})$\\
+
+    \begin{align*}
+        M(q) &\coloneqq q(2^a - q)(2^{a + b} - q(2^a - q))\\
+            &= \deg\alpha \text{ in \blue{\textsf{GenRandIsogImages}} with} d = q(2^a - q).
+    \end{align*}
 
     \vspace{10pt}
-    Requirements for $q = \deg\varphi_\mathrm{res}$ and $N = \deg\varphi_\mathrm{sec}$:
+    Requirements for $q = \deg\varphi_\mathrm{rsp}$ and $N = \deg\varphi_\mathrm{sec}$:
     \begin{enumerate}
         \item $q < 2^a$
         \item $q(2^a - q) < 2^{a + b}$\quad (follows from \textbf{1} and $a \leq b + 2$)
-        \item $p \cdot N^3 < M(q)$
+        \item $p \cdot N^3 < M(q)$\qquad (follows from $N < p^{1/4}$)
         \item $\left(\frac{-M(q)}{N}\right) = 1$
     \end{enumerate}
-    We say $q$ is \blue{\emph{$(2^a, 2^b, N)$-nice}} if $q$ satisfies the above conditions.
 
-    \vspace{20pt}
-    It can be relaxed to
-    $q/g$ is $(2^a, 2^b, N)$-nice for some $g \mid f$.\\[3pt]
-    \gray{(Recall $p = 2^{a + b} \cdot f - 1$. See our paper for details.)}
+    \vspace{10pt}
+    \red{Issue} (pointed out by \cite{CCILV2024sqisign2d_attack}): $q$ depends on $N$.
+\end{frame}
+
+\begin{frame}{Restriction on $E_\mathrm{pk}$}
+    The space of the secret keys
+    $$
+        \mathcal{S}_\mathrm{sk} = \{
+            \varphi_\mathrm{sk}: E_0 \to \cdot
+            \mid \deg\varphi_{\mathrm{sec}} < p^{1/4} \}.
+    $$
+    \begin{itemize}
+        \setlength{\itemsep}{10pt}
+        \item The number of possible choices of $N \coloneqq \deg\varphi_\mathrm{sk}$ is about $p^{1/4} \approx 2^{\lambda/2}$.
+        \item $N \approx p^{1/4} \approx 2^{\lambda/2} \Rightarrow$ there are about $2^{\lambda/2}$ $N$-isogenies from $E_0$.
+        \item $\#\mathcal{S}_\mathrm{sk} \approx 2^{\lambda}$.
+        \item \red{The degree $N$ must be kept secret.}\\
+            Otherwise, the brute-force attack with $N$-isogenies costs $2^{\lambda/2}$.
+    \end{itemize}
+
+\end{frame}
+
+\begin{frame}{Key recovery attack}
+    The attack procedure:
+    \begin{enumerate}
+        \item Collect $\lambda/2$ signatures (for the same public key).
+        \item For each prime $N < p^{1/4+\epsilon}$, 
+            check $\left(\frac{-M(q)}{N}\right) = 1$ for all $q$'s.\\
+            (exhaustive search of cost $O(2^{\lambda/2})$)
+        \item (Typically) find a unique $N$ satisfying the condition.
+        \item Compute all $N$-isogenies from $E_0$. (cost $O(2^{\lambda/2})$)
+    \end{enumerate}
+
+    \vspace{10pt}
+    The total cost is $O(2^{\lambda/2})$.\\[5pt]
+    $\Rightarrow$ The security is reduced to $2^{\lambda/2}$ from $2^\lambda$.
+\end{frame}
+
+\newcounter{countermeasurecnt}
+\regtotcounter{countermeasurecnt}
+\newcommand*{\countermeasuretotal}{\total{countermeasurecnt}}
+\stepcounter{countermeasurecnt}
+\begin{frame}{Coutermeasure (\arabic{countermeasurecnt}/\countermeasuretotal{})}
+    \textbf{Idea:}
+    making $q$ independent of $\deg\varphi_\mathrm{sec}$.
+
+    \vspace{10pt}
+    \textbf{Solution:}
+    \begin{itemize}
+        \item $\deg\varphi_\mathrm{sec}$ is sampled from
+            a prime $N < p^{1/4+\epsilon}$ s.t. \red{$\left(\frac{3}{N}\right) = -1$}.
+        \item Change the condition $\left(\frac{-M(q)}{N}\right) = 1$ to
+            \red{$3 \mid M(q)$}.
+        \item Modify \textsf{GenRandIsogImages} as shown in the next slide.
+            \iffalse
+            $\left(\frac{-M(q)}{N}\right) = 1 \Rightarrow$ compute $\alpha \in \End(E_\mathrm{pub})$ s.t. $\deg\alpha = M(q)$.\\[5pt]
+            $\left(\frac{-M(q)}{N}\right) = -1$ (so $\left(\frac{-M(q)/3}{N}\right) = 1$)\\
+                    $\Rightarrow$ compute $\alpha \in \End(E_\mathrm{pub})$ s.t. $\deg\alpha = M(q)/3$\\
+                    \hphantom{$\Rightarrow$} and compute a random $3$-isogeny $\varphi_3: E_\mathrm{pub} \to E_3$.\\
+                    \hphantom{$\Rightarrow$} Then, $\deg(\varphi_3 \circ \alpha) = M(q)$
+            \fi
+    \end{itemize}
+\end{frame}
+
+\stepcounter{countermeasurecnt}
+\begin{frame}{Coutermeasure (\arabic{countermeasurecnt}/\countermeasuretotal{})}
+    \begin{algorithm}[H]
+        \caption{(modified) \textsf{GenRandIsogImages}}
+        \KwIn{
+            An elliptic curve $E$
+            and an odd integer $q < 2^a$ s.t.\\
+            \hphantom{Input: }
+            $\exists$ an isogeny $E_0 \to E$ of prime degree $N$,\\
+            \hphantom{Input: }
+            $M(q) > p\cdot N^3$,
+            \red{$\left(\frac{3}{N}\right) = -1$},
+            and \red{$3 \mid M(q)$}.
+        }
+        \KwOut{A $q(2^a - q)$-isogeny $\varphi$ from $E$.}
+        \BlankLine
+        \If{$\left(\frac{-M(q)}{N}\right) = 1$}{
+            Let $\alpha \leftarrow \textsf{SpecialEichlerNorm}(E, M(q))$\;
+        }
+        \Else{
+            Let $\alpha' \leftarrow \textsf{SpecialEichlerNorm}(E, M(q)\red{/3})$\;
+            \red{Compute a random $3$-isogeny $\varphi_3: E \to E_3$}\;
+            \red{Let $\alpha \leftarrow \varphi_3 \circ \alpha'$}\;
+        }
+        Compute a $q(2^a - q)$-isogeny $\varphi$ by Kani's lemma\;
+        \Return{$\varphi$}\;
+    \end{algorithm}
 \end{frame}
