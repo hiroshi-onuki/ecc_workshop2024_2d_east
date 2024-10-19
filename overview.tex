@@ -1,0 +1,51 @@
+\begin{frame}{Setting}
+    \begin{itemize}
+        \setlength{\itemsep}{10pt}
+        \item $\lambda$: security parameter.
+        \item $p$ : a prime number of the form $2^{a + b} \cdot f - 1 \approx 2^{2\lambda}$,\\[3pt]
+                where $b \leq a \leq b + 2$ and $f$ is a small integer.
+        \item $E_0 : y^2 = x^3 + x$, $\End(E_0) \cong \order_0$.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Diagram in SQIsign2D-East}
+
+    \vspace{-10pt}
+    {\large
+    $$
+        \xymatrix@C=40pt@R=40pt{
+            E_0 \ar@{..>}[r]^{\varphi_\mathrm{com}} \ar@{..>}[d]_{\varphi_\mathrm{sk}} & E_\mathrm{com} \ar[d]^{\varphi_\mathrm{chl}} \\
+            E_\mathrm{pk} \ar[r]_{\varphi_\mathrm{rsp}} \ar@[red][d]_{\red{\varphi_\mathrm{aux}}} & E_\mathrm{rsp}\\
+            \red{E_\mathrm{aux}} & 
+        }
+    $$
+    }
+    $\deg\varphi_\mathrm{rsp}$ does not have to be smooth, (satisfies weaker conditions).\\[3pt]
+    \quad $\Rightarrow$ We can use \blue{\textsf{LatticeEnumeration}}, so $\varphi_\mathrm{rsp} \approx p^{\red{1/2}}$.\\[3pt]
+    \quad \hphantom{$\Rightarrow$}
+    Verifier uses Kani's lemma and needs \red{$\varphi_\mathrm{aux}$} s.t.
+    \begin{align*}
+        \deg\varphi_\mathrm{rsp} + \deg\varphi_\mathrm{aux} = 2^a
+    \end{align*}
+\end{frame}
+
+\begin{frame}{How to compute isogenies}
+
+    \vspace{-10pt}
+    {\large
+    $$
+        \xymatrix@C=40pt@R=40pt{
+            E_0 \ar@{..>}[r]^{\varphi_\mathrm{com}} \ar@{..>}[d]_{\varphi_\mathrm{sk}} & E_\mathrm{com} \ar[d]^{\varphi_\mathrm{chl}} \\
+            E_\mathrm{pk} \ar[r]_{\varphi_\mathrm{rsp}} \ar@[red][d]_{\red{\varphi_\mathrm{aux}}} & E_\mathrm{rsp}\\
+            \red{E_\mathrm{aux}} & 
+        }
+    $$
+    }
+
+    \begin{itemize}
+        \item $\varphi_\mathrm{chl}$: V\'elu's formula. ($\deg\varphi_\mathrm{chl} = 2^b$.)
+        \item $\varphi_\mathrm{sk}$ and $\varphi_\mathrm{com}$: RandIsogImages
+        \item $\red{\varphi_\mathrm{aux}}$: \blue{Generalized RandIsogImages} (new algorithm!)
+        \item $\varphi_\mathrm{rsp}$: Kani's lemma.
+    \end{itemize}
+\end{frame}

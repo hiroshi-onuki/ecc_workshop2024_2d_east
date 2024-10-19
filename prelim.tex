@@ -1,21 +1,14 @@
 
 \begin{frame}{Notation}
+
     \begin{itemize}
         \setlength{\itemsep}{10pt}
-        \item $\lambda$: security parameter.
-        \item $p$ : a prime number of the form $2^{a + b} \cdot f - 1 \approx 2^{2\lambda}$,\\[3pt]
-                where $b \leq a \leq b + 2$ and $f$ is a small integer.
-        \item $E_0 : y^2 = x^3 + x$, a supersingular elliptic curve over $\Fpp$.
-        %\item $\B = \Q + \Q \qi + \Q \qj + \Q \qi \qj$ for $\qi^2 = -1$ and $\qj^2 = -p$.
-        %\item $\order_0 = \Z + \Z\qi + \Z\frac{\qi + \qj}{2} + \Z\frac{1 + \qi\qj}{2}$: a maximal order of $\B$,\\[3pt]
-        %            $\order_0 \cong \End(E_0)$ (we identify $\order_0$ with $\End(E_0)$).
+        \item $p$ : a large prime number
+        \item All the elliptic curves in this talk are supersingular and over $\Fpp$.
+        \item Elliptic curves are denoted by $E$, $E_\bullet$, $E'$, and so on.
+        \item $E(\Fpp) = E[p+1] \cong (\Z/(p+1)\Z)^2$.
     \end{itemize}
 
-    \vspace{10pt}
-    $\End(E_0)$ has "good" properties for isogeny-based cryptography.
-
-    \vspace{20pt}
-    All the elliptic curves in this talk are supersingular and over $\Fpp$.
 \end{frame}
 
 \newcounter{cnt_quat}
@@ -284,6 +277,13 @@
             \item Check if $\varphi_{\mathrm{rsp}}$ is an isogeny from $E_{\mathrm{pk}}$ to $E_{\mathrm{chl}}$\\
                 \hphantom{Check if} and the kernel of $\hat{\varphi}_{\mathrm{chl}}\circ\varphi_{\mathrm{rsp}}$ is cyclic.
         \end{itemize}
+    }
+    \only<7>{
+        \textbf{Note:}
+        For verification,
+        $\deg\varphi_{\mathrm{rsp}}$ should be smooth.\\[3pt]
+        \hphantom{\textbf{Note:}} $\Rightarrow$
+        We use \textsf{GeneralizedKLPT}, so $\deg\varphi_{\mathrm{rsp}} \approx p^{\red{3.75}}$.
     }
 \end{frame}
 
