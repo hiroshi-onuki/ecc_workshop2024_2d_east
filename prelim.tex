@@ -145,9 +145,9 @@
     {\large
        \blue{$\mathsf{SpecialEichlerNorm}_{I}(D)$}
     }
-    (\cite{EC:DLLW23}):\\
+    (\cite{EC:DLLW23}):\\[5pt]
     \begin{tabular}{l l}
-        \textbf{Input}: & a left $\order_0$ ideal $I$ and an integer $D$.\\[3pt]
+        \textbf{Input}: & a left $\order_0$-ideal $I$ and an integer $D$.\\[3pt]
         \textbf{Output}: & $\alpha \in \order$, where $I$ is a right $\order$-ideal,
                             s.t. $\norm(\alpha) = D$.\\[3pt]
         \textbf{Requirement}: & 
@@ -165,10 +165,60 @@
     find $\alpha \in \End(E)$ s.t. $\deg\alpha = D$.
 \end{frame}
 
+\stepcounter{cnt_alg_quat}
+\begin{frame}{Quaternion algorithms (\arabic{cnt_alg_quat}/\algquatotal{})}
 
+    {\large
+       \blue{$\mathsf{GeneralizedKLPT}$}
+    }
+    (\cite{AC:DKLPW20}):\\[5pt]
+    \begin{tabular}{l l}
+        \textbf{Input}: & a left $\order_0$-ideal $I_0$,
+                a left $\order$-ideal $I$, and an integer $D$,\\[2pt]
+                & where $I_0$ is a connecting ideal of $\order_0$ and $\order$,\\[3pt]
+        \textbf{Output}: & $J \sim I$ s.t. $\norm(J) = D$.\\[3pt]
+        \textbf{Requirement}: & 
+                $D > p\cdot\norm(I_0)^3$.
+    \end{tabular}
 
-\begin{frame}{Algorithms for finding equivalent ideals}
-    
+    \vspace{15pt}
+    \textcolor{magenta}{\textbf{Elliptic curve side:}}
+    \begin{align*}
+        \xymatrix{
+            E_0 \ar[r]^{\varphi_{I_0}}
+                & E \ar@/^15pt/[r]^{\varphi_I} \ar@/_15pt/[r]_{\varphi_J}
+                & E'
+        }
+    \end{align*}
+    Given $\varphi_{I_0}$ and $\varphi_I$,
+    find $\varphi_J$ s.t. $\deg\varphi_J = D$.
+\end{frame}
+
+\stepcounter{cnt_alg_quat}
+\begin{frame}{Quaternion algorithms (\arabic{cnt_alg_quat}/\algquatotal{})}
+
+    {\large
+       \blue{$\mathsf{LatticeEnumeration}$}
+    }
+    (e.g., \cite[Algorithm 2.7.5]{Cohen2010_ccnt}):\\[5pt]
+    \begin{tabular}{l l}
+        \textbf{Input}: & a left $\order$-ideal $I$,
+                            where $\order$ is a maximal order.\\[3pt]
+        \textbf{Output}: & $J \sim I$ s.t. $\norm(J) \approx \sqrt{p}$.\\[3pt]
+        \textbf{Note}: & 
+                $\norm(J)$ can be seen as a random integer.
+    \end{tabular}
+
+    \vspace{15pt}
+    \textcolor{magenta}{\textbf{Elliptic curve side:}}
+    \begin{align*}
+        \xymatrix{
+            & E \ar@/^15pt/[r]^{\varphi_I} \ar@/_15pt/[r]_{\varphi_J}
+            & E'
+        }
+    \end{align*}
+    Given $\End(E)$ and $\varphi_I$,
+    find $\varphi_J$ s.t. $\deg\varphi_J \approx \sqrt{p}$.
 \end{frame}
 
 \begin{frame}{SQIsign}
@@ -217,7 +267,8 @@
         \textbf{Prover:}
         \begin{itemize}
             \item Compute the ideal $I$ corresponding to $\varphi_\mathrm{chl}\circ\varphi_\mathrm{com}\circ\hat{\red{\varphi}}_{\red{\mathrm{sk}}}$.
-            \item Compute an ideal $J$ equivalent to $I$ whose norm is a power of $2$.
+            \item Compute an ideal $J$ equivalent to $I$ whose norm is a power of $2$,\\
+                by \blue{\textsf{GeneralizedKLPT}}.
         \end{itemize}
     }
     \only<5>{
@@ -249,13 +300,13 @@
             \xymatrix@R=0.3em{
                 \deg\varphi_1 = \deg\psi_1 = d_1,\\
                 \deg\varphi_2 = \deg\psi_2 = d_2,\\
-                d = d_1 + d_2.
+                d = d_1 + d_2,\  \gcd(d_1, d_2) = 1.
             }
         \end{align*}
 
         Then, the isogeny with kernel
-        $$\{\varphi_1(R), \varphi_2(R) \mid R \in E[d]\}$$
-        is a $(d,d)$-isogeny$E_1 \times E_2 \to E \times F$ and represented by
+        $$\{(\varphi_1(R), \varphi_2(R)) \mid R \in E[d]\} \subset E_1 \times E_2$$
+        is a $(d,d)$-isogeny $E_1 \times E_2 \to E \times F$ and represented by
         \vspace{-10pt}
         \begin{equation*}
             \begin{pmatrix}
@@ -266,28 +317,61 @@
     \end{lemma}
 \end{frame}
 
+\begin{frame}{Application of Kani's lemma}
+
+    \vspace{-10pt}
+    \begin{align*}
+        \xymatrix@C=30pt@R=30pt{
+            E \ar[r]^{\varphi_1} \ar[d]_{\varphi_2} & E_1 \ar[d]^{\psi_2}\\
+            E_2 \ar[r]_{\psi_1} & F
+        }
+        \qquad
+        \xymatrix@R=0.3em{
+            \deg\varphi_1 = \deg\psi_1 = d_1,\\
+            \deg\varphi_2 = \deg\psi_2 = d_2,\\
+            d = d_1 + d_2, \gcd(d_1, d_2) = 1.
+        }
+    \end{align*}
+
+    \vspace{10pt}
+    We can compute $E$, $F$, and the isogenies in the above diagram\\
+    from \blue{$E_1$}, \blue{$E_2$}, \blue{$d_1$}, \blue{$d_2$}, and \blue{$(\varphi_1 \circ \hat{\varphi}_2) \restriction_{E_2[d]}$}.
+    \begin{align*}
+        \{(\varphi_1(R), \varphi_2(R)) \mid R \in E[d]\}
+        = \{(\varphi_1\circ\hat{\varphi}_2(R), [d_2]R \mid R) \in E_2[d]\}.
+    \end{align*}
+   
+    \vspace{10pt}
+    \textbf{Note:}
+    For efficiency, we do NOT require $d_1$ and $d_2$ to be smooth,\\
+    \hphantom{\textbf{Note:}} but we require $d$ to be smooth.
+\end{frame}
+
 \begin{frame}{RandIsogImages (RII)}
+    Let $p = 2^e \cdot f - 1$, so $E_0[2^e] \subset E_0(\Fpp)$.
+
+    \vspace{5pt}
     \begin{algorithm}[H]
         \caption{\textsf{RandIsogImages} \cite{C:NakOnu24}}
-        \KwIn{An odd integer $d < 2^{a+b}$.}
+        \KwIn{An odd integer $d < 2^{e}$.}
         \KwOut{A $d$-isogeny from $E_0$.}
         \BlankLine
-        Let $\alpha \leftarrow \textsf{FullRepresentInteger}_{\order_0}(d\cdot(2^{a+b} - d))$\;
-        Compute a $d$-isogeny $\varphi$ by Kani's lemma\;
+        Let $\blue{\alpha} \leftarrow \textsf{FullRepresentInteger}_{\order_0}(d\cdot(2^{e} - d))$\;
+        Compute a $d$-isogeny $\magenta{\varphi}$ by Kani's lemma\;
         \Return{$\varphi$}\;
     \end{algorithm}
 
     \vspace*{5pt}
     \begin{equation*}
         \xymatrix{
-            E_0 \ar[r]^\varphi \ar[d]_\psi \ar[dr]^{\alpha} & E_1 \ar[d]^{\psi'} \\
-            E_2 \ar[r]_{\varphi'} & E_0,
+            E_1 \ar[r]^{\psi} & E_0\\
+            E_0 \ar[u]^{\magenta{\varphi}} \ar[ur]^{\blue{\alpha}} \ar[r]_{\psi'} & E_2 \ar[u]_{\varphi'}
         }
         \hspace*{10pt}
         \xymatrix@R=5pt{
             \\
             \deg\varphi = \deg\varphi' = d,\\
-            \deg\psi = \deg\psi' = 2^{a+b} - d.
+            \deg\psi = \deg\psi' = 2^{e} - d.
         }
     \end{equation*}
 \end{frame}
