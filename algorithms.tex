@@ -104,7 +104,8 @@
     \end{enumerate}
 
     \vspace{10pt}
-    \red{Issue} (pointed out by \cite{CCILV2024sqisign2d_attack}): $q$ depends on $N$.
+    \red{Issue} : $q$ depends on $N$.\quad
+    (pointed out by \cite{CCILV2024sqisign2d_attack})
 \end{frame}
 
 \begin{frame}{Restriction on $E_\mathrm{pk}$}
@@ -123,22 +124,6 @@
             Otherwise, the brute-force attack with $N$-isogenies costs $2^{\lambda/2}$.
     \end{itemize}
 
-\end{frame}
-
-\begin{frame}{Key recovery attack}
-    The attack procedure:
-    \begin{enumerate}
-        \item Collect $\lambda/2$ signatures (for the same public key).
-        \item For each prime $N < p^{1/4+\epsilon}$, 
-            check $\left(\frac{-M(q)}{N}\right) = 1$ for all $q$'s.\\
-            (exhaustive search of cost $O(2^{\lambda/2})$)
-        \item (Typically) find a unique $N$ satisfying the condition.
-        \item Compute all $N$-isogenies from $E_0$. (cost $O(2^{\lambda/2})$)
-    \end{enumerate}
-
-    \vspace{10pt}
-    The total cost is $O(2^{\lambda/2})$.\\[5pt]
-    $\Rightarrow$ The security is reduced to $2^{\lambda/2}$ from $2^\lambda$.
 \end{frame}
 
 \newcounter{countermeasurecnt}
