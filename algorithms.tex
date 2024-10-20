@@ -130,30 +130,23 @@
 \regtotcounter{countermeasurecnt}
 \newcommand*{\countermeasuretotal}{\total{countermeasurecnt}}
 \stepcounter{countermeasurecnt}
-\begin{frame}{Coutermeasure (\arabic{countermeasurecnt}/\countermeasuretotal{})}
+\begin{frame}{Modification (\arabic{countermeasurecnt}/\countermeasuretotal{})}
     \textbf{Idea:}
-    making $q$ independent of $\deg\varphi_\mathrm{sec}$.
+    making $q$ independent of $\deg\varphi_\mathrm{sk}$.
 
     \vspace{10pt}
     \textbf{Solution:}
     \begin{itemize}
         \item $\deg\varphi_\mathrm{sec}$ is sampled from
-            a prime $N < p^{1/4+\epsilon}$ s.t. \red{$\left(\frac{3}{N}\right) = -1$}.
+            a prime $N < p^{1/4}$ s.t. \red{$\left(\frac{3}{N}\right) = -1$}.
         \item Change the condition $\left(\frac{-M(q)}{N}\right) = 1$ to
             \red{$3 \mid M(q)$}.
-        \item Modify \textsf{GenRandIsogImages} as shown in the next slide.
-            \iffalse
-            $\left(\frac{-M(q)}{N}\right) = 1 \Rightarrow$ compute $\alpha \in \End(E_\mathrm{pub})$ s.t. $\deg\alpha = M(q)$.\\[5pt]
-            $\left(\frac{-M(q)}{N}\right) = -1$ (so $\left(\frac{-M(q)/3}{N}\right) = 1$)\\
-                    $\Rightarrow$ compute $\alpha \in \End(E_\mathrm{pub})$ s.t. $\deg\alpha = M(q)/3$\\
-                    \hphantom{$\Rightarrow$} and compute a random $3$-isogeny $\varphi_3: E_\mathrm{pub} \to E_3$.\\
-                    \hphantom{$\Rightarrow$} Then, $\deg(\varphi_3 \circ \alpha) = M(q)$
-            \fi
+        \item Modify \blue{\textsf{GenRandIsogImages}} as in the next slide.
     \end{itemize}
 \end{frame}
 
 \stepcounter{countermeasurecnt}
-\begin{frame}{Coutermeasure (\arabic{countermeasurecnt}/\countermeasuretotal{})}
+\begin{frame}{Modification (\arabic{countermeasurecnt}/\countermeasuretotal{})}
     \begin{algorithm}[H]
         \caption{(modified) \textsf{GenRandIsogImages}}
         \KwIn{
