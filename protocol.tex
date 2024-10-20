@@ -1,0 +1,101 @@
+
+\begin{frame}{Identification protocol in SQIsign2D-East}
+
+    \vspace{-10pt}
+    {\large
+    $$
+        \xymatrix@C=30pt@R=30pt{
+            & E_0 \ar@{..>}[d]_{\varphi_\mathrm{sk}}
+                \only<2->{\ar@{..>}[r]^{\varphi_\mathrm{com}}}
+                \only<5-6>{\ar@[red]@<7.5pt>[d]}
+                & \uncover<2->{E_\mathrm{com}}
+                \only<5-6>{\ar@[red]@<7.5pt>[l]}
+                \only<3->{\ar[d]^{\varphi_\mathrm{chl}}} \\
+            & E_\mathrm{pk}
+                \only<5->{\ar[r]_{\varphi_\mathrm{rsp}}}
+                \only<5-6>{\ar@[red]@<7.5pt>[r] \ar@{}@<20pt>[r]^{\red{\alpha}}}
+                \only<7>{\ar[d]^{\varphi_\mathrm{aux}}}
+                \only<7>{\ar[dl]_{\tau}}
+                \only<8->{\ar[d]_{\varphi_\mathrm{aux}}}
+                & \uncover<3->{E_\mathrm{chl}} \only<5-6>{\ar@[red]@<7.5pt>[u]}\\
+            \only<7>{E'} & \uncover<7->{E_\mathrm{aux}} \only<7>{\ar[l]} & 
+        }
+    $$
+    }
+
+    \vspace{10pt}
+    \only<1>{
+        \textbf{Prover:}
+        \begin{itemize}
+            \item Take a random odd integer $N_\mathrm{sk} \in [1, p^{1/4}]$ s.t. $\left(\frac{3}{N_\mathrm{sk}}\right) = -1$
+                and compute an $N_\mathrm{sk}$-isogeny $\varphi_{\mathrm{sk}}$ by \blue{\textsf{RandIsogImages}}.
+            \item The prover will prove the knowledge of $\varphi_{\mathrm{sk}}$ with public $E_\mathrm{pk}$.
+        \end{itemize}
+    }
+    \only<2>{
+        \textbf{Prover:}
+        \begin{itemize}
+            \item Take a random odd integer $N_\mathrm{com} \in [1, 2^\lambda]$\\
+                and compute a $N_\mathrm{com}$-isogeny $\varphi_{\mathrm{com}}$ by \blue{\textsf{RandIsogImages}}.
+            \item Send $E_{\mathrm{com}}$ to the verifier.
+        \end{itemize}
+    }
+    \only<3>{
+        \textbf{Verifier:}
+        \begin{itemize}
+            \item Compute a $2^b$-isogeny $\varphi_{\mathrm{chl}}$.
+            \item Send $\varphi_\mathrm{chl}$ and $E_{\mathrm{chl}}$ to the prover.
+        \end{itemize}
+    }
+    \only<4>{
+        \textbf{Prover:}
+        \begin{itemize}
+            \item Compute the ideal $I$ corresponding to $\varphi_\mathrm{chl}\circ\varphi_\mathrm{com}\circ\hat{\red{\varphi}}_{\red{\mathrm{sk}}}$.
+            \item Compute an ideal $J \sim I$ s.t. $\norm(J)$ is $(2^a, 2^b)_3$-nice\\
+                by \blue{\textsf{LatticeEnumeration}}.
+        \end{itemize}
+    }
+    \only<5>{
+        \textbf{Prover:}
+        \begin{itemize}
+            \item Let $\varphi_{\mathrm{rsp}}$ be the isogeny corresponding to $J$. (Not computed.)
+            \item Let $\red{\alpha} \coloneqq \varphi_\mathrm{sk}\circ\hat{\varphi}_\mathrm{com}\circ\hat{\varphi}_\mathrm{chl}\circ\varphi_\mathrm{rsp} \in \End(E_{\mathrm{pk}})$.
+                (by $I$ and $J$)
+        \end{itemize}
+    }
+    \only<6>{
+        \textbf{Prover:}
+        \begin{itemize}
+            \item Compute the images of a basis of $E_\mathrm{pk}[2^a]$ under $\varphi_\mathrm{rsp}$ by
+            \begin{align*}
+                \varphi_\mathrm{rsp}([2^b]P')
+                    = (N_\mathrm{sk}N_\mathrm{com})^{-1}
+                        \varphi_\mathrm{chl}\circ\varphi_\mathrm{com}\circ
+                        \hat{\varphi}_\mathrm{sk}\circ\red{\alpha}([2^b]P')
+            \end{align*}
+            for $P' \in E_\mathrm{pk}[2^{a+b}]$.
+        \end{itemize}
+    }
+    \only<7>{
+        \textbf{Prover:}
+        \begin{itemize}
+            \item Compute a $q(2^a - q)$-isogeny $\tau$ by \blue{\textsf{GenRandIsogImages}}.
+            \item Compute a $(2^a - q)$-isogeny $\varphi_\mathrm{aux}$ by Kani's lemma.
+        \end{itemize}
+    }
+    \only<8>{
+        \textbf{Prover:}
+        \begin{itemize}
+            \item Let $(P, Q)$ be a fixed basis of $E_\mathrm{aux}[2^a]$.
+            \item Send $E_\mathrm{aux}, \varphi_\mathrm{rsp}\circ\hat{\varphi}_\mathrm{aux}(P), \varphi_\mathrm{rsp}\circ\hat{\varphi}_\mathrm{aux}(Q)$ to the verifier.
+        \end{itemize}
+    }
+    \only<9>{
+        \textbf{Verifier:}
+        \begin{itemize}
+            \item Compute $\varphi_\mathrm{rsp}$ by Kani's lemma.
+            \item Check if $\varphi_\mathrm{rsp}$ is an isogeny from $E_\mathrm{pk}$ to $E_\mathrm{chl}$.
+        \end{itemize}
+    }
+
+\end{frame}

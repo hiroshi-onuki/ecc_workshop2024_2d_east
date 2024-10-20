@@ -89,6 +89,7 @@
 \stepcounter{auxRIIcnt}
 \begin{frame}{Auxiliary isogeny (\arabic{auxRIIcnt}/\auxRIItotal{})}
 
+    \vspace{-10pt}
     \begin{align*}
         M(q) &\coloneqq q(2^a - q)(2^{a + b} - q(2^a - q))\\
             &= \deg\alpha \text{ in \blue{\textsf{GenRandIsogImages}} with} d = q(2^a - q).
@@ -97,6 +98,7 @@
     \vspace{10pt}
     Requirements for $q = \deg\varphi_\mathrm{rsp}$ and $N = \deg\varphi_\mathrm{sec}$:
     \begin{enumerate}
+        \item $q$ is odd
         \item $q < 2^a$
         \item $q(2^a - q) < 2^{a + b}$\quad (follows from \textbf{1} and $a \leq b + 2$)
         \item $p \cdot N^3 < M(q)$\qquad (follows from $N < p^{1/4}$)
@@ -143,6 +145,18 @@
             \red{$3 \mid M(q)$}.
         \item Modify \blue{\textsf{GenRandIsogImages}} as in the next slide.
     \end{itemize}
+
+    \vspace{15pt}
+    We say $q$ is \blue{\emph{$(2^a, 2^b)_3$-nice}} if
+    \begin{itemize}
+        \item $q$ is odd,
+        \item $q < 2^a$,
+        \item $q(2^a - q) < 2^{a + b}$,
+        \item $3 \mid M(q)$.
+    \end{itemize}
+
+    \vspace{5pt}
+    We make $\deg\varphi_\mathrm{rsp}$ $(2^a, 2^b)_3$-nice.
 \end{frame}
 
 \stepcounter{countermeasurecnt}
