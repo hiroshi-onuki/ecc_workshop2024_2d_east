@@ -99,3 +99,53 @@
     }
 
 \end{frame}
+
+\newcounter{security_cnt}
+\regtotcounter{security_cnt}
+\newcommand*{\securitytotal}{\total{security_cnt}}
+\stepcounter{security_cnt}
+\begin{frame}{Security (\arabic{security_cnt}/\securitytotal{})}
+
+    
+\end{frame}
+
+\begin{frame}{Signature size}
+    
+    \textbf{Signature sizes of variants of SQIsign} (in bytes)
+    \begin{table}
+        \begin{center}
+            \begin{tabular}{c|>{\centering\arraybackslash}m{1.5cm}|>{\centering\arraybackslash}m{1.5cm}|>{\centering\arraybackslash}m{1.5cm}|>{\centering\arraybackslash}m{1.5cm}}
+                Security & SQIsign & HD & West & \textbf{East} \\
+                \hline
+                128 & 177 & 109 & 149 & \textbf{154} \\
+                192 & 263 & - & 222 & \textbf{223} \\
+                256 & 335 & - & 294 & \textbf{296}
+            \end{tabular}
+        \end{center}
+    \end{table}
+
+    \vspace{10pt}
+    The public key is $E_\mathrm{pk}$ in all cases.
+\end{frame}
+
+\begin{frame}{Performance}
+
+    \textbf{Performance of SQIsign2D-East} (in seconds)
+    \begin{table}
+        \begin{center}
+            \begin{tabular}{c|>{\centering\arraybackslash}m{1.5cm}|>{\centering\arraybackslash}m{1.5cm}|>{\centering\arraybackslash}m{1.5cm}}
+                Security & Keygen & Sign & Verify \\
+                \hline
+                128 & 0.64 & 1.90 & 0.34 \\
+                192 & 0.95 & 3.40 & 0.55 \\
+                256 & 1.68 & 5.21 & 0.85
+            \end{tabular}
+        \end{center}
+    \end{table}
+
+    \vspace{10pt}
+    \begin{itemize}
+        \item Proof-of-concept implementation in Julia.
+        \item Run on Intel Core i7-10700K CPU @ 3.70GHz.
+    \end{itemize}
+\end{frame}
