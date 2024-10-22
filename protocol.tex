@@ -105,8 +105,56 @@
 \newcommand*{\securitytotal}{\total{security_cnt}}
 \stepcounter{security_cnt}
 \begin{frame}{Security (\arabic{security_cnt}/\securitytotal{})}
+    \begin{prob}[Finding endomorphism]
+        Given $E$ find $\alpha \in \End(E)\setminus\Z$.
+    \end{prob}
 
-    
+    \begin{prob}
+        Given $B > 0$, distinguish
+        \begin{itemize}
+            \item uniform sampling from $\{E \mid \exists\varphi: E_0 \to E \text{ s.t. } \deg\varphi < B\}$,
+            \item $E$ computed by \blue{\textsf{RandIsogImages}} with $d < B$. 
+        \end{itemize}
+    \end{prob}
+\end{frame}
+
+\stepcounter{security_cnt}
+\begin{frame}{Security (\arabic{security_cnt}/\securitytotal{})}
+    \begin{prob}
+        Given $E_\mathrm{pk}$ and a $(2^a, 2^b)_3$-nice integer $q$, distinguish
+        \begin{enumerate}
+            \item uniform sampling from $\{E \mid \exists\varphi: E_\mathrm{pk} \to E \text{ s.t. } \deg\varphi = 2^a - q\}$,
+            \item $E_\mathrm{aux}$ in SQIsign2D-East.
+        \end{enumerate}
+    \end{prob}
+
+    \vspace{10pt}
+    \begin{prob}
+        Given $E_\mathrm{pk}$ and a $(2^a, 2^b)_3$-nice integer $q$, distinguish
+        \begin{enumerate}
+            \item uniform sampling from $\{E \mid \exists\varphi: E_\mathrm{pk} \to E \text{ s.t. } \deg\varphi = q\}$,
+            \item $E_\mathrm{aux}$ in SQIsign2D-East.
+        \end{enumerate}
+    \end{prob}
+\end{frame}
+
+\stepcounter{security_cnt}
+\begin{frame}{Security (\arabic{security_cnt}/\securitytotal{})}
+    \begin{oracle}[FIxed Degree Isogeny Oracle (FIDIO)]
+        Given $E$ and an integer $N$, output $\varphi: E \to E'$ of degree $N$.
+    \end{oracle}
+
+    \vspace{10pt}
+    \begin{oracle}[{\small Random Uniform Nice Degree Isogeny Oracle} (RUNDIO)]
+        Given $E$, the oracle executes
+        \begin{enumerate}
+            \item uniformly sample $E'$ from all supersingular elliptic curves,
+            \item if $\exists\varphi: E \to E'$ s.t. $\deg\varphi$ is $(2^a, 2^b)_3$-nice,\\
+                \quad output one of such $\varphi$ uniformly at random\\
+                otherwise,\\
+                \quad output the zero morphism.
+        \end{enumerate}
+    \end{oracle}
 \end{frame}
 
 \begin{frame}{Signature size}
