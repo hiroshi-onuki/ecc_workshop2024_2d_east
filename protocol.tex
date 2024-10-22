@@ -233,6 +233,10 @@
 
     \vspace{10pt}
     The public key is $E_\mathrm{pk}$ in all cases.
+
+    \vspace{10pt}
+    \quad HD : SQIsignHD \cite{EC:DLRW24}\\[3pt]
+    \quad West : SQIsign2D-West \cite{BDDLMPRW2024sqisign2d}
 \end{frame}
 
 \begin{frame}{Performance}
@@ -254,5 +258,30 @@
     \begin{itemize}
         \item Proof-of-concept implementation in Julia.
         \item Run on Intel Core i7-10700K CPU @ 3.70GHz.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Comparison with SQIsign2D-West}
+    \textbf{Efficiency}:\\
+    2D-East is \blue{more efficient} than 2D-West. \cChangey{+2}\\[-10pt]
+    \begin{table}
+        \caption{The number of $(2, 2)$-isogenies in 128-bit security:}
+        \begin{center}
+            \begin{tabular}{c|c|c}
+                & East & West \\\hline
+                Keygen & 253 & 496 \\
+                Sign & 641 & 992 \\
+                Verify & 129 & 126
+            \end{tabular}
+        \end{center}
+    \end{table}
+
+    \vspace{10pt}
+    \textbf{Security}:\\
+    2D-East needs \red{stronger assumptions} than 2D-West. \cChangey{-2}
+    \begin{itemize}
+        \item 2D-West requires only Problem \ref{prob:find_endo}
+            and access to oracles.
+        \item No failure in finding $\varphi_\mathrm{rsp}$ in 2D-West.
     \end{itemize}
 \end{frame}
