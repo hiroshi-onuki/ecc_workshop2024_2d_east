@@ -100,27 +100,83 @@
 
 \end{frame}
 
+\begin{frame}{Failure in finding $\varphi_\mathrm{rsp}$}
+    The protocol could \red{fail} in finding $\varphi_\mathrm{rsp}$.\\[3pt]
+    \textit{I.e.}, there is no isogeny $E_\mathrm{pk} \to E_\mathrm{chl}$ whose degree is $(2^a, 2^b)_3$-nice.
+
+    \vspace{10pt}
+    To reduce the failure probability, we use $q$ s.t.
+    $$
+        \exists d \mid f \text{ s.t. } q/d \text{ is $(2^a, 2^b)_3$-nice}.
+    $$
+    (\gray{Recall $p = 2^{a + b} \cdot f - 1$.})
+    We say such $q$ is \blue{\emph{$(2^a, 2^b, f)$-nice}}.
+
+    \vspace{10pt}
+    The failure probabilities in our parameters is estimated:
+    \begin{table}
+        \begin{center}
+            \begin{tabular}{c|c|c|c|c}
+                Security & $a$ & $b$ & $f$ & $log_2(\text{Prob.})$ \\
+                \hline
+                128 & 129 & 127 & 45 & $\approx -46$ \\
+                192 & 191 & 189 & 35 & $\approx -35$ \\
+                256 & 254 & 252 & 375 & $\approx -43$
+            \end{tabular}
+        \end{center}
+    \end{table}
+    If a failure occurs, the prover retakes $\varphi_{\mathrm{com}}$.
+\end{frame}
+
 \newcounter{security_cnt}
 \regtotcounter{security_cnt}
 \newcommand*{\securitytotal}{\total{security_cnt}}
 \stepcounter{security_cnt}
 \begin{frame}{Security (\arabic{security_cnt}/\securitytotal{})}
-    \begin{prob}[Finding endomorphism]
+    \begin{prob}[Finding endomorphism]\label{prob:find_endo}
         Given $E$ find $\alpha \in \End(E)\setminus\Z$.
     \end{prob}
 
-    \begin{prob}
+    \begin{prob}\label{prob:rii}
         Given $B > 0$, distinguish
         \begin{itemize}
             \item uniform sampling from $\{E \mid \exists\varphi: E_0 \to E \text{ s.t. } \deg\varphi < B\}$,
             \item $E$ computed by \blue{\textsf{RandIsogImages}} with $d < B$. 
         \end{itemize}
     \end{prob}
+
+    \vspace{10pt}
+    \begin{itemize}
+        \item Problem \ref{prob:find_endo} is standard in isogeny-based cryptography.
+        \item A similar problem to Problem \ref{prob:rii} is in QFESTA \cite{C:NakOnu24}.
+    \end{itemize}
 \end{frame}
 
 \stepcounter{security_cnt}
 \begin{frame}{Security (\arabic{security_cnt}/\securitytotal{})}
-    \begin{prob}
+    To prove the \blue{zero-knowledge property},\\
+    we allow the simulator access to the following \blue{oracles}:
+
+    \begin{oracle}[FIxed Degree Isogeny Oracle (FIDIO)]\label{oracle:fidio}
+        Given $E$ and an integer $N$, output $\varphi: E \to E'$ of degree $N$.
+    \end{oracle}
+
+    \vspace{5pt}
+    \begin{oracle}[{\small Random Uniform Nice Degree Isogeny Oracle} (RUNDIO)]\label{oracle:rundio}
+        Given $E$, the oracle executes
+        \begin{enumerate}
+            \item uniformly sample $E'$ from all supersingular elliptic curves,
+            \item if $\exists\varphi: E \to E'$ s.t. $\deg\varphi$ is $(2^a, 2^b, f)_3$-nice,\\
+                \quad output one of such $\varphi$ uniformly at random,\\
+                otherwise,\\
+                \quad output the zero morphism.
+        \end{enumerate}
+    \end{oracle}
+\end{frame}
+
+\stepcounter{security_cnt}
+\begin{frame}{Security (\arabic{security_cnt}/\securitytotal{})}
+    \begin{prob}\label{prob:aux}
         Given $E_\mathrm{pk}$ and a $(2^a, 2^b)_3$-nice integer $q$, distinguish
         \begin{enumerate}
             \item uniform sampling from $\{E \mid \exists\varphi: E_\mathrm{pk} \to E \text{ s.t. } \deg\varphi = 2^a - q\}$,
@@ -128,33 +184,36 @@
         \end{enumerate}
     \end{prob}
 
-    \vspace{10pt}
-    \begin{prob}
-        Given $E_\mathrm{pk}$ and a $(2^a, 2^b)_3$-nice integer $q$, distinguish
+    \vspace{5pt}
+    \begin{prob}\label{prob:simu}
+        Given $E$, distinguish
         \begin{enumerate}
-            \item uniform sampling from $\{E \mid \exists\varphi: E_\mathrm{pk} \to E \text{ s.t. } \deg\varphi = q\}$,
-            \item $E_\mathrm{aux}$ in SQIsign2D-East.
+            \item uniform sampling from all supersingular elliptic curves over $\F_{p^2}$,
+            \item $F$ sampled by the following process:
+            \begin{enumerate}
+                \normalsize
+                \item $E' \leftarrow \textsf{RUNDIO}(E)$, rejecting the zero morphism.
+                \item $\sigma : E' \to F$ be a uniformly random $2^b$-isogeny.
+                \item output $F$.
+            \end{enumerate}
         \end{enumerate}
     \end{prob}
 \end{frame}
 
 \stepcounter{security_cnt}
 \begin{frame}{Security (\arabic{security_cnt}/\securitytotal{})}
-    \begin{oracle}[FIxed Degree Isogeny Oracle (FIDIO)]
-        Given $E$ and an integer $N$, output $\varphi: E \to E'$ of degree $N$.
-    \end{oracle}
+    \begin{theorem}[Soundness]
+        The identification protocol in SQIsign2D-East is
+        \blue{sound}\\
+        if Problem \ref{prob:find_endo} and Problem \ref{prob:rii} are hard.
+    \end{theorem}
 
     \vspace{10pt}
-    \begin{oracle}[{\small Random Uniform Nice Degree Isogeny Oracle} (RUNDIO)]
-        Given $E$, the oracle executes
-        \begin{enumerate}
-            \item uniformly sample $E'$ from all supersingular elliptic curves,
-            \item if $\exists\varphi: E \to E'$ s.t. $\deg\varphi$ is $(2^a, 2^b)_3$-nice,\\
-                \quad output one of such $\varphi$ uniformly at random\\
-                otherwise,\\
-                \quad output the zero morphism.
-        \end{enumerate}
-    \end{oracle}
+    \begin{theorem}[Zero-knowledge]
+        The identification protocol in SQIsign2D-East is \blue{zero-knowledge}\\
+        if Problem \ref{prob:rii}, Problem \ref{prob:aux}, and Problem \ref{prob:simu} are hard\\
+        if the simulator can access to the oracles in Oracle \ref{oracle:fidio} and Oracle \ref{oracle:rundio}.
+    \end{theorem}
 \end{frame}
 
 \begin{frame}{Signature size}
