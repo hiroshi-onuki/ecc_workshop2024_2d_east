@@ -1,9 +1,10 @@
 \begin{frame}{Requirement on $\varphi_\mathrm{aux}$}
     \begin{itemize}
         \setlength{\itemsep}{10pt}
-        \item $\deg\varphi_\mathrm{res} + \deg\varphi_\mathrm{aux} = 2^a \approx p^{1/2}$\\
-            $\Rightarrow \deg\varphi_\mathrm{aux} < 2^a$.
-        \item The domain $E_\mathrm{pk}$ is not a special curve\\
+        \item $\deg\varphi_\mathrm{res} + \deg\varphi_\mathrm{aux} = 2^a \approx p^{1/2}$\\[3pt]
+            $\Rightarrow \deg\varphi_\mathrm{aux} < 2^a$.\\[3pt]
+            \hphantom{$\Rightarrow$} $\deg\varphi_\mathrm{aux}$ is nonsmooth.
+        \item The domain $E_\mathrm{pk}$ is not a special curve\\[3pt]
             $\Rightarrow$ we cannot use \blue{\textsf{FullRepresentInteger}}.
         \item The prover knows
                 \begin{align*}
@@ -49,27 +50,32 @@
     \begin{align*}
         d(2^{a+b} - d) > p (\deg\varphi_\mathrm{sec})^3.
     \end{align*}
+    \mypause
     Since $2^{a+b} - d \approx p$, we have
     \begin{align*}
         d > (\deg\varphi_\mathrm{sec})^3.
     \end{align*}
 
+    \mypause
     If we sample $E_\mathrm{pk}$ from all supersingular curves
     then $\deg\varphi_\mathrm{sec} \approx p^{1/2}$.
 
+    \mypause
     \vspace{10pt}
-    Restricting $E_\mathrm{pk}$ to a subset used in SQIsign
+    Restricting $E_\mathrm{pk}$ to a \textbf{subset used in SQIsign}
     then $\deg\varphi_\mathrm{sec} \approx p^{1/4}$.
 
     \vspace{5pt}
     We use this restriction, but
     $$ d > p^{3/4}$$
-    is too large for $\varphi_\mathrm{aux}$ (we want $\deg\varphi_\mathrm{aux} < 2^a$).
+    is \red{too large} for $\varphi_\mathrm{aux}$ (we want $\deg\varphi_\mathrm{aux} < 2^a$).
 
 \end{frame}
 
 \stepcounter{auxRIIcnt}
 \begin{frame}{Auxiliary isogeny (\arabic{auxRIIcnt}/\auxRIItotal{})}
+    Let $q \coloneqq \deg\varphi_\mathrm{rsp}$.
+    (We take $q$ as a random odd integer s.t. $q < 2^a$.)
     $$
         \xymatrix@C=40pt@R=40pt{
             E_\mathrm{aux} \ar[r]^\psi & E_1\\
@@ -95,6 +101,7 @@
             &= \deg\alpha \text{ in \blue{\textsf{GenRandIsogImages}} with} d = q(2^a - q).
     \end{align*}
 
+    \mypause
     \vspace{10pt}
     Requirements for $q = \deg\varphi_\mathrm{rsp}$ and $N = \deg\varphi_\mathrm{sec}$:
     \begin{enumerate}
@@ -146,7 +153,8 @@
         \item Modify \blue{\textsf{GenRandIsogImages}} as in the next slide.
     \end{itemize}
 
-    \vspace{15pt}
+    \mypause
+    \vspace{10pt}
     We say $q$ is \blue{\emph{$(2^a, 2^b)_3$-nice}} if
     \begin{itemize}
         \item $q$ is odd,
