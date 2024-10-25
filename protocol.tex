@@ -36,7 +36,7 @@
         \textbf{Prover:}
         \begin{itemize}
             \item Take a random odd integer $N_\mathrm{com} \in [1, 2^\lambda]$\\
-                and compute a $N_\mathrm{com}$-isogeny $\varphi_{\mathrm{com}}$ by \blue{\textsf{RandIsogImages}}.
+                and compute an $N_\mathrm{com}$-isogeny $\varphi_{\mathrm{com}}$ by \blue{\textsf{RandIsogImages}}.
             \item Send $E_{\mathrm{com}}$ to the verifier.
         \end{itemize}
     }
@@ -71,7 +71,7 @@
                 \varphi_\mathrm{rsp}([2^b]P')
                     = (N_\mathrm{sk}N_\mathrm{com})^{-1}
                         \varphi_\mathrm{chl}\circ\varphi_\mathrm{com}\circ
-                        \hat{\varphi}_\mathrm{sk}\circ\red{\alpha}([2^b]P')
+                        \hat{\varphi}_\mathrm{sk}\circ\red{\alpha}(P')
             \end{align*}
             for $P' \in E_\mathrm{pk}[2^{a+b}]$.
         \end{itemize}
@@ -104,16 +104,18 @@
     The protocol could \red{fail} in finding $\varphi_\mathrm{rsp}$.\\[3pt]
     \textit{I.e.}, there is no isogeny $E_\mathrm{pk} \to E_\mathrm{chl}$ whose degree is $(2^a, 2^b)_3$-nice.
 
+    \mypause
     \vspace{10pt}
-    To reduce the failure probability, we use $q$ s.t.
+    To reduce the \textbf{failure probability}, we use $q$ s.t.
     $$
         \exists d \mid f \text{ s.t. } q/d \text{ is $(2^a, 2^b)_3$-nice}.
     $$
     (\gray{Recall $p = 2^{a + b} \cdot f - 1$.})
     We say such $q$ is \blue{\emph{$(2^a, 2^b, f)$-nice}}.
 
+    \mypause
     \vspace{10pt}
-    The failure probabilities in our parameters is estimated:
+    The \textbf{failure probabilities} in our parameters is estimated:
     \begin{table}
         \begin{center}
             \begin{tabular}{c|c|c|c|c}
@@ -177,7 +179,7 @@
 \stepcounter{security_cnt}
 \begin{frame}{Security (\arabic{security_cnt}/\securitytotal{})}
     \begin{prob}\label{prob:aux}
-        Given $E_\mathrm{pk}$ and a $(2^a, 2^b)_3$-nice integer $q$, distinguish
+        Given $E_\mathrm{pk}$ and a $(2^a, 2^b, f)_3$-nice integer $q$, distinguish
         \begin{enumerate}
             \item uniform sampling from $\{E \mid \exists\varphi: E_\mathrm{pk} \to E \text{ s.t. } \deg\varphi = 2^a - q\}$,
             \item $E_\mathrm{aux}$ in SQIsign2D-East.
