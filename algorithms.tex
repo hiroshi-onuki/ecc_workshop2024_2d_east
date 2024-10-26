@@ -9,7 +9,7 @@
         \item The prover knows
                 \begin{align*}
                     \xymatrix@C=30pt{
-                        E_0 \ar[r]^{\varphi_\mathrm{sec}} & E_\mathrm{pk}
+                        E_0 \ar[r]^{\varphi_\mathrm{sk}} & E_\mathrm{pk}
                     }.
                 \end{align*}
             $\Rightarrow$ we can use \blue{\textsf{SpecialEichlerNorm}}.
@@ -48,22 +48,22 @@
 \begin{frame}{Auxiliary isogeny (\arabic{auxRIIcnt}/\auxRIItotal{})}
     Consider applying \blue{\textsf{GenRandIsogImages}} to $E_\mathrm{pk}$.
     \begin{align*}
-        d(2^{a+b} - d) > p (\deg\varphi_\mathrm{sec})^3.
+        d(2^{a+b} - d) > p (\deg\varphi_\mathrm{sk})^3.
     \end{align*}
     \mypause
     Since $2^{a+b} - d \approx p$, we have
     \begin{align*}
-        d > (\deg\varphi_\mathrm{sec})^3.
+        d > (\deg\varphi_\mathrm{sk})^3.
     \end{align*}
 
     \mypause
     If we sample $E_\mathrm{pk}$ from all supersingular curves
-    then $\deg\varphi_\mathrm{sec} \approx p^{1/2}$.
+    then $\deg\varphi_\mathrm{sk} \approx p^{1/2}$.
 
     \mypause
     \vspace{10pt}
     Restricting $E_\mathrm{pk}$ to a \textbf{subset used in SQIsign}
-    then $\deg\varphi_\mathrm{sec} \approx p^{1/4}$.
+    then $\deg\varphi_\mathrm{sk} \approx p^{1/4}$.
 
     \vspace{5pt}
     We use this restriction, but
@@ -98,16 +98,16 @@
     \vspace{-10pt}
     \begin{align*}
         M(q) &\coloneqq q(2^a - q)(2^{a + b} - q(2^a - q))\\
-            &= \deg\alpha \text{ in \blue{\textsf{GenRandIsogImages}} with} d = q(2^a - q).
+            &= \deg\alpha \text{ in \blue{\textsf{GenRandIsogImages}} with } d = q(2^a - q).
     \end{align*}
 
     \mypause
     \vspace{10pt}
-    Requirements for $q = \deg\varphi_\mathrm{rsp}$ and $N = \deg\varphi_\mathrm{sec}$:
+    Requirements for $q = \deg\varphi_\mathrm{rsp}$ and $N = \deg\varphi_\mathrm{sk}$:
     \begin{enumerate}
         \item $q$ is odd
         \item $q < 2^a$
-        \item $q(2^a - q) < 2^{a + b}$\quad (follows from \textbf{1} and $a \leq b + 2$)
+        \item $q(2^a - q) < 2^{a + b}$\quad (follows from \textbf{2} and $a \leq b + 2$)
         \item $p \cdot N^3 < M(q)$\qquad (follows from $N < p^{1/4}$)
         \item $\left(\frac{-M(q)}{N}\right) = 1$
     \end{enumerate}
@@ -122,7 +122,7 @@
     $$
         \mathcal{S}_\mathrm{sk} = \{
             \varphi_\mathrm{sk}: E_0 \to \cdot
-            \mid \deg\varphi_{\mathrm{sec}} < p^{1/4} \}.
+            \mid \deg\varphi_{\mathrm{sk}} < p^{1/4} \}.
     $$
     \begin{itemize}
         \setlength{\itemsep}{10pt}
@@ -146,7 +146,7 @@
     \vspace{10pt}
     \textbf{Solution:}
     \begin{itemize}
-        \item $\deg\varphi_\mathrm{sec}$ is sampled from
+        \item $\deg\varphi_\mathrm{sk}$ is sampled from
             a prime $N < p^{1/4}$ s.t. \red{$\left(\frac{3}{N}\right) = -1$}.
         \item Change the condition $\left(\frac{-M(q)}{N}\right) = 1$ to
             \red{$3 \mid M(q)$}.
