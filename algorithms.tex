@@ -26,16 +26,16 @@
         \caption{\textsf{GenRandIsogImages}}
         \KwIn{
             An elliptic curve $E$
-            and an odd integer $d < 2^{a+b}$ s.t.\\
+            and an odd integer $d < 2^{a+b}$,\\
             \hphantom{Input: }
-            $\exists$ an isogeny $E_0 \to E$ of prime degree $N$,\\
+            \red{an isogeny $\varphi_I: E_0 \to E$ of prime degree $N$} s.t.\\
             \hphantom{Input: }
-            \red{$d(2^{a+b} - d) > p\cdot N^3$},
+            \red{$d(2^{a+b} - d) > p\cdot N^3$}
             and \red{$\left(\frac{-d(2^{a+b} - d)}{N}\right) = 1$}.
         }
         \KwOut{A $d$-isogeny $\varphi$ from $E$.}
         \BlankLine
-        Let $\alpha \leftarrow \red{\textsf{SpecialEichlerNorm}(E, d(2^{a+b} - d))}$\;
+        Let $\alpha \leftarrow \red{\textsf{SpecialEichlerNorm}_{I}(E, d(2^{a+b} - d))}$\;
         Compute a $d$-isogeny $\varphi$ by Kani's lemma\;
         \Return{$\varphi$}\;
     \end{algorithm}
@@ -173,9 +173,9 @@
         \caption{(modified) \textsf{GenRandIsogImages}}
         \KwIn{
             An elliptic curve $E$
-            and an odd integer $q < 2^a$ s.t.\\
+            and an odd integer $q < 2^a$,\\
             \hphantom{Input: }
-            $\exists$ an isogeny $E_0 \to E$ of prime degree $N$,\\
+            an isogeny $\varphi_I: E_0 \to E$ of prime degree $N$ s.t.\\
             \hphantom{Input: }
             $M(q) > p\cdot N^3$,
             \red{$\left(\frac{3}{N}\right) = -1$},
@@ -184,10 +184,10 @@
         \KwOut{A $q(2^a - q)$-isogeny $\varphi$ from $E$.}
         \BlankLine
         \If{$\left(\frac{-M(q)}{N}\right) = 1$}{
-            Let $\alpha \leftarrow \textsf{SpecialEichlerNorm}(E, M(q))$\;
+            Let $\alpha \leftarrow \textsf{SpecialEichlerNorm}_{I}(E, M(q))$\;
         }
         \Else{
-            Let $\alpha' \leftarrow \textsf{SpecialEichlerNorm}(E, M(q)\red{/3})$\;
+            Let $\alpha' \leftarrow \textsf{SpecialEichlerNorm}_{I}(E, M(q)\red{/3})$\;
             \red{Compute a random $3$-isogeny $\varphi_3: E \to E_3$}\;
             \red{Let $\alpha \leftarrow \varphi_3 \circ \alpha'$}\;
         }

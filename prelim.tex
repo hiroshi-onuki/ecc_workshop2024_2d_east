@@ -143,8 +143,9 @@
         \textbf{Input}: & a left $\order_0$-ideal $I$ and an integer $D$.\\[3pt]
         \textbf{Output}: & $\alpha \in \order$, where $I$ is a right $\order$-ideal,
                             s.t. $\norm(\alpha) = D$.\\[3pt]
-        \textbf{Requirement}: & 
-                $D > p\cdot\norm(I)^3$ and $\displaystyle \left(\frac{-D}{\norm(I)}\right) = 1$.
+        \textbf{Requirement}: &
+                $\norm(I)$ is prime,
+                $D > p\cdot\norm(I)^3$, and $\displaystyle \left(\frac{-D}{\norm(I)}\right) = 1$.
     \end{tabular}
 
     \vspace{15pt}
@@ -338,7 +339,7 @@
     from \blue{$E_1$}, \blue{$E_2$}, \blue{$d_1$}, \blue{$d_2$}, and \blue{$(\varphi_1 \circ \hat{\varphi}_2) \restriction_{E_2[d]}$}.
     \begin{align*}
         \{(\varphi_1(R), \varphi_2(R)) \mid R \in E[d]\}
-        = \{(\varphi_1\circ\hat{\varphi}_2(R), [d_2]R \mid R) \in E_2[d]\}.
+        = \{(\varphi_1\circ\hat{\varphi}_2(R), [d_2]R) \mid R \in E_2[d]\}.
     \end{align*}
    
     \vspace{10pt}
@@ -352,7 +353,7 @@
 
     \vspace{5pt}
     \begin{algorithm}[H]
-        \caption{\textsf{RandIsogImages} \cite{C:NakOnu24}}
+        \caption{\textsf{RandIsogImages} (in \textbf{QFESTA} \cite{C:NakOnu24})}
         \KwIn{An odd integer $d < 2^{e}$.}
         \KwOut{A $d$-isogeny from $E_0$.}
         \BlankLine

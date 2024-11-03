@@ -50,7 +50,7 @@
     \only<4>{
         \textbf{Prover:}
         \begin{itemize}
-            \item Compute the ideal $I$ corresponding to $\varphi_\mathrm{chl}\circ\varphi_\mathrm{com}\circ\hat{\red{\varphi}}_{\red{\mathrm{sk}}}$.
+            \item Compute the ideal $I$ corresponding to $\varphi_\mathrm{chl}\circ\varphi_\mathrm{com}\circ\hat{\varphi}_{\mathrm{sk}}$.
             \item Compute an ideal $J \sim I$ s.t. $\norm(J)$ is $(2^a, 2^b)_3$-nice\\
                 by \blue{\textsf{LatticeEnumeration}}.
         \end{itemize}
@@ -102,7 +102,7 @@
 
 \begin{frame}{Failure in finding $\varphi_\mathrm{rsp}$}
     The protocol could \red{fail} in finding $\varphi_\mathrm{rsp}$.\\[3pt]
-    \textit{I.e.}, there is no isogeny $E_\mathrm{pk} \to E_\mathrm{chl}$ whose degree is $(2^a, 2^b)_3$-nice.
+    \textit{I.e.}, there could be no $(2^a, 2^b)_3$-nice degree isogeny $E_\mathrm{pk} \to E_\mathrm{chl}$.
 
     \mypause
     \vspace{10pt}
@@ -111,7 +111,7 @@
         \exists d \mid f \text{ s.t. } q/d \text{ is $(2^a, 2^b)_3$-nice}.
     $$
     (\gray{Recall $p = 2^{a + b} \cdot f - 1$.})
-    We say such $q$ is \blue{\emph{$(2^a, 2^b, f)$-nice}}.
+    We say such $q$ is \blue{\emph{$(2^a, 2^b, f)_3$-nice}}.
 
     \mypause
     \vspace{10pt}
@@ -214,7 +214,7 @@
     \begin{theorem}[Zero-knowledge]
         The identification protocol in SQIsign2D-East is \blue{zero-knowledge}\\
         if Problem \ref{prob:rii}, Problem \ref{prob:aux}, and Problem \ref{prob:simu} are hard\\
-        if the simulator can access to the oracles in Oracle \ref{oracle:fidio} and Oracle \ref{oracle:rundio}.
+        if the simulator can access to Oracle \ref{oracle:fidio} and Oracle \ref{oracle:rundio}.
     \end{theorem}
 \end{frame}
 
@@ -272,7 +272,7 @@
             \begin{tabular}{c|c|c}
                 & East & West \\\hline
                 Keygen & 253 & 496 \\
-                Sign & 641 & 992 \\
+                Sign & 770 & 1118 \\
                 Verify & 129 & 126
             \end{tabular}
         \end{center}
